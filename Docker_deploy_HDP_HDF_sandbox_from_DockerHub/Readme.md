@@ -1,5 +1,5 @@
 ## Architecture
-![Architecture](/images/cda-architecture.jpg)
+![Architecture](images/cda-architecture.jpg)
 
 ## Prerequisites
 * Docker version 17.09 or newer installed
