@@ -1,6 +1,8 @@
 
 ## Prerequisites
-* HDP and/or HDF have/has been deployed
+* HDP and/or HDF have/has been deployed using one of the following methods
+  * https://github.com/ccbt87/docs/tree/master/Docker_deploy_HDP_HDF_sandbox_from_local_files
+  * https://github.com/ccbt87/docs/tree/master/Docker_deploy_HDP_HDF_sandbox_from_DockerHub
 
 ## First Things First
 Add `HOST_IP sandbox-hdp.hortonworks.com sandbox-hdf.hortonworks.com` to the `hosts` file.
