@@ -2,5 +2,5 @@ AWS_deploy_Cassandra_cluster_using_script
 AWS_deploy_HDP_HDF_cluster_using_Ambari
 AWS_deploy_HDP_HDF_sandbox_using_Docker
 HDP_and_Cassandra_on_CentOS
-images
+Images
 Kafka_Spark_Cassandra_on_Docker
