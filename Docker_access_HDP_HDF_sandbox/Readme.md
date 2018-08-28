@@ -7,11 +7,12 @@ Add `HOST_IP sandbox-hdp.hortonworks.com sandbox-hdf.hortonworks.com` to the `ho
 
 ## Access HDP
 The first time access HDP requires to set up the password for the Ambari admin account.
-![ADMIN-PASSWORD-RESET](images/ADMIN-PASSWORD-RESET.PNG)
+
 1. Open `http://sandbox-hdf.hortonworks.com:4200` in web browser
 2. Log in to the shell web client (the shell of the host of HDP) using credentials: `root/hadoop`
 3. You are required to change your password immediately. Enter the root password `hadoop`. Then enter a new password twice for the root account.
 4. Enter the command `ambari-admin-password-reset`, and enter a new password twice for the Ambari admin account.
+![ADMIN-PASSWORD-RESET](images/ADMIN-PASSWORD-RESET.PNG)
 
 Once the password is set, the ambari-server will restart.
 
