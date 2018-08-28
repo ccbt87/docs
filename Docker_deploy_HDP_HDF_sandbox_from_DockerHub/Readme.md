@@ -13,7 +13,7 @@ Follow the Sandbox Deployment and Install Guide tutorials at: https://hortonwork
 4. After the previous script is done, run the script `enable-native-cda.sh`.
 
 ## Access the HDP and HDF
-To access the HDP and HDF, visit
+To access the HDP and HDF, visit https://github.com/ccbt87/docs/tree/master/Docker_access_HDP_HDF_sandbox
 
 ## Reference
 * Deploying Hortonworks Sandbox on Docker and Troubleshooting https://hortonworks.com/tutorial/sandbox-deployment-and-install-guide/section/3/
