@@ -9,7 +9,8 @@ AWS instance(s) has/have been launched and running https://github.com/ccbt87/doc
 # 1. Configure Instance(s), and Install Ambari
 1. Sign In to the AWS Management Console. Go to `Services` -> `EC2` -> `Instances`. Find the `Private IP` and `Private DNS` for each instance in the `Description` by selecting the instance
 ![Instances](images/2.1.0.PNG)
-2. Upload the scripts to one instance. Or have one dedicated instance which does not belong to the cluster to store the scripts.
+2. Upload the scripts to one instance. Or have one dedicated instance which does not belong to the cluster to store the scripts. (Currently, the scripts are stored in the free-tier instance)
+
 ![Scripts](images/2.2.0.PNG)
 3. SSH to the instance that stores the scripts. Write the `Private IP` and `Private DNS` to the file `hosts` using the format `Private_IP Private_DNS` just like a normal host file. For example: `1.2.3.4 ec2-1-2-3-4.us-west-2.compute.amazonaws.com`
 4. Execute the script `./hdphdf.sh` and wait for the script to complete
