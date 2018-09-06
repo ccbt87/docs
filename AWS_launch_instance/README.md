@@ -29,5 +29,5 @@ Click `View Instance` or go to `Services` -> `EC2` -> `Instances`.
 ![View Instance](images/2.0.0.PNG)
 
 # What you can do next
-* Deploy a HDP/HDF cluster
+* Deploy a HDP/HDF cluster https://github.com/ccbt87/docs/tree/master/AWS_deploy_HDP_HDF_cluster_using_Ambari
 * Deploy a Cassandra cluster

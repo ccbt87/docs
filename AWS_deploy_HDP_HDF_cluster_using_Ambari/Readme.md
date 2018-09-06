@@ -4,7 +4,7 @@ This documentation applies to following environment, and may or may not work in 
 * AWS EC2 Instances with at least 16 GB memory
 
 # Prerequisites
-AWS instance(s) has/have been launched and running
+AWS instance(s) has/have been launched and running https://github.com/ccbt87/docs/tree/master/AWS_launch_instance
 
 # 1. Configure Instance(s), and Install Ambari
 1. Sign In to the AWS Management Console. Go to `Services` -> `EC2` -> `Instances`. Find the `Private IP` and `Private DNS` for each instance in the `Description` by selecting the instance
