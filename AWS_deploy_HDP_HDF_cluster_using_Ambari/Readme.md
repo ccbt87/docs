@@ -7,7 +7,7 @@ This documentation applies to following environment, and may or may not work in 
 AWS instance(s) has/have been launched and running https://github.com/ccbt87/docs/tree/master/AWS_launch_instance
 
 # 1. Configure Instance(s), and Install Ambari
-1. Sign In to the AWS Management Console. Go to `Services` -> `EC2` -> `Instances`. Find the `Private IP` and `Private DNS` for each instance in the `Description` by selecting the instance
+1. Sign In to the AWS Management Console. Go to `Services` -> `EC2` -> `Instances`. Find the `Public_IP`, `Public_DNS`, `Private IP`, and `Private DNS` for each instance in the `Description` by selecting the instance
 
 ![Instances](images/2.1.0.PNG)
 
@@ -15,14 +15,20 @@ AWS instance(s) has/have been launched and running https://github.com/ccbt87/doc
 
 ![Scripts](images/2.2.0.PNG)
 
-3. SSH to the instance that stores the scripts. Write the `Private IP` and `Private DNS` to the file `hosts` using the format `Private_IP Private_DNS` just like a normal host file. For example: `1.2.3.4 ec2-1-2-3-4.us-west-2.compute.amazonaws.com`
+* The MySQL database password for Hive, Ranger, Schema Registry, Streaming Analytics Manager, and Superset were set in the script file `preconfig-ambari-4-hdphdf.sh`.
+* You will need to enter these passwords in the step 2.7 if you select the corresponding service in the step 2.4.
+* If you want to change the password, change it before executing the script `./hdphdf.sh`
+
+3. SSH to the instance that stores the scripts. Write the `Private IP` and `Private DNS` to the `hosts` file using the format `Private_IP Private_DNS` just like a normal host file. For example: `1.2.3.4 ec2-1-2-3-4.us-west-2.compute.amazonaws.com`
+
+* The first instance you put in the hosts file will be the host of Ambari Server and MySQL database.
 
 4. Execute the script `./hdphdf.sh` and wait for the script to complete
 
 ![Run](images/2.4.0.PNG)
 
 # 2. Install, Configure, and Deploy a Cluster
-Open `http://<Public_IP or Public_DNS>:8080` in web browser. Log in to the Ambari Server using the default username/password: `admin/admin`
+Once you get the message `Ambari Server 'start' completed successfully`, open `http://<the Public_IP or Public_DNS of the first instance you put in the hosts file in the step 1.3>:8080` in web browser. Log in to the Ambari Server using the default username/password: `admin/admin`
 
 ![Ambari Server](images/3.0.0.PNG)
 
@@ -51,17 +57,17 @@ Once the host registration is done and all host checks passed. Click `NEXT`
 ![Confirm Hosts](images/3.3.0.PNG)
 
 ## 2.4. Choose Services
-Choose desired services, and click `NEXT`. For demonstration purposes, the example chose all of the services.
+Choose desired services, and click `NEXT`. For demonstration purposes, this example chose all of the available services. Selecting everything requires a large amount of hardware resources especially the memory. Insufficient resources may lead to the failure of installation and testing.
 
 ![Choose Services](images/3.4.0.PNG)
 
 ## 2.5. Assign Masters
-Assign Masters, and click `NEXT`. For demonstration purposes, the example did not change the default assignment.
+Assign Masters, and click `NEXT`. For demonstration purposes, this example did not change the default assignment.
 
 ![Assign Masters](images/3.5.0.PNG)
 
 ## 2.6. Assign Slaves and Clients
-Assign Slaves and Clients, and click `NEXT`. For demonstration purposes, the example did not change the default assignment.
+Assign Slaves and Clients, and click `NEXT`. For demonstration purposes, this example did not change the default assignment.
 
 ![Assign Slaves and Clients](images/3.6.0.PNG)
 
@@ -91,10 +97,10 @@ Assign Slaves and Clients, and click `NEXT`. For demonstration purposes, the exa
   * Click `NEXT`
 
 ### DIRECTORIES
-  * Click `NEXT`. For demonstration purposes, the example did not change the default configuration.
+  * Click `NEXT`. For demonstration purposes, this example did not change the default configuration.
 
 ### ACCOUNTS
-  * Click `NEXT`. For demonstration purposes, the example did not change the default configuration.
+  * Click `NEXT`. For demonstration purposes, this example did not change the default configuration.
 
 ### ALL CONFIGURATIONS
   1. Go to `NIFI`. Expand `Advanced nifi-ambari-config`. Set password for `Encrypt Configuration Master Key Password` and `Sensitive property values encryption password`
