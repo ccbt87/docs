@@ -7,7 +7,8 @@ AWS account with sufficient authorization
 ![EC2](images/1.2.0.PNG)
 3. Click `Launch Instance`
 ![Launch Instance](images/1.3.0.PNG)
-    1. `Select` Red Hat Enterprise Linux 7.5 (HVM), SSD Volume Type - ami-28e07e50
+    1. `Select` desired Operating System.
+      * RHEL and SLES are more expensive than other Linux such as CentOS and Ubuntu.
     ![Choose AMI](images/1.3.1.PNG)
     2. Choose an desired Instance Type. Click `Next: Configure Instance Details`
     ![Choose Instance](images/1.3.2.PNG)
