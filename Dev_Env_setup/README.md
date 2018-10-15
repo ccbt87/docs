@@ -27,7 +27,7 @@ IntelliJ should make a new project with a default directory structure.
 
 ## Change IntelliJ Settings
 
-To different Maven version, go to File > Settings > Build, Execution, Deployment > Build Tools > Maven. Change the Maven home directory.
+OPTIONAL: To use different Maven version, go to File > Settings > Build, Execution, Deployment > Build Tools > Maven. Change the Maven home directory.
 
 ![Maven](images/2.1.PNG)
 
