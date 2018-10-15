@@ -9,7 +9,7 @@
 ## Creating IntelliJ Project
 NOTE: Instructions may vary. This tutorial uses IntelliJ Version: 2018.2.4 on Windows 10 1803.
 
-Create a new project by selecting File > New > Project, then select Maven, set JDK version and click Next.
+Create a new project by selecting File > New > Project, or Create New Project on the IntelliJ IDEA Welcome window. Then select Maven, set JDK version and click Next.
 
 ![New](images/1.1.PNG)
 
@@ -53,9 +53,13 @@ For demo purpose, copy everything from https://github.com/ccbt87/sample-KafkaSpa
 
 Select the folder `src/main/java` in the project directory. Right-click on folder and select New > Java Class. Name the class: KafkaSparkHBase.java
 
+![Class](images/4.1.PNG)
+
 For demo purpose, copy everything from https://github.com/ccbt87/sample-KafkaSparkHBase/blob/master/src/main/java/KafkaSparkHBase.java to it.
 
-![POM](images/4.1.PNG)
+![Code](images/4.2.PNG)
+
+NOTE: Do not worry about the red lines for now.
 
 ## Setup Test Environment
 Pull the Docker image https://hub.docker.com/r/ccbt87/aio/
@@ -73,6 +77,8 @@ For demo purpose, this tutorial use `aio` for both names.
 Go to Maven Projects > {Project Name} > Lifecycle. Double click on package. This will create a compiled jar under target in the project directory.
 
 ![JAR](images/6.1.PNG)
+
+NOTE: The red lines should disappear after you close and reopen the IntelliJ IDEA.
 
 Copy the jar file to the docker container
 ```
