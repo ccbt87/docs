@@ -71,7 +71,7 @@ docker pull ccbt87/aio
 Following components were included in this Docker image:
 
 | Component | Version | Binary Location | Port |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | Kafka | 1.1.1 | /opt/kafka_2.11-1.1.1 | Listener 6667 |
 | Spark* | 2.3.1 | /opt/spark-2.3.1-bin-hadoop2.7 | Master Web UI 8080 <br> Worker Web UI 8081 <br> Master 7077 |
 | HBase | 2.0.0 | /opt/hbase-2.0.0 | Master 16010 |
