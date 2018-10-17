@@ -57,6 +57,8 @@ Select the folder `src/main/java` in the project directory. Right-click on folde
 
 For demo purpose, copy everything from https://github.com/ccbt87/sample-KafkaSparkHBase/blob/master/src/main/java/KafkaSparkHBase.java to it.
 
+NOTE: If a different hostname was given to the container in the next section, change the hostname in the code accordingly.
+
 ![Code](images/4.2.PNG)
 
 NOTE: Do not worry about the red lines for now.
@@ -72,13 +74,10 @@ docker pull ccbt87/aio
 ```
 Refer to Appendix A for the details about this image.
 
-Run the image
+Run the image. Specify the hostname and the name for the container as needed. If not specified, a short form of UUID will be used as both of the hostname and container name. For demo purpose, this tutorial use `aio` for both names.
 ```
 docker run --hostname aio --name aio --rm -it ccbt87/aio
 ```
-Specify the hostname and the name for the container as needed. If not specified, a short form of UUID will be used as both of the hostname and container name. For demo purpose, this tutorial use `aio` for both names.
-
-The `--rm` option will let the Docker remove the container when it exits. Make sure to save the data in the container if there is any.
 
 NOTE: Docker for Mac and Windows cannot route traffic to Linux containers. Use following workarounds if needed:
 * To connect to a container from the Mac or Windows, run the image using either one of the following commands and then use localhost:{port} to access the service in container.
@@ -96,6 +95,10 @@ NOTE: Docker for Mac and Windows cannot route traffic to Linux containers. Use f
   * The host has a changing IP address (or none if it has no network access). From Docker 18.03 onwards the recommendation is to connect to the special DNS name `host.docker.internal`, which resolves to the internal IP address used by the host. This is for development purpose and will not work in a production environment outside of Docker for Mac or Windows.
   * The gateway is also reachable as `gateway.docker.internal`.
 
+NOTE: With the `--rm` option Docker will remove the container when it exits. Make sure to save the data in the container if there is any. Adding this option is a workaround for two issues in the Mac or Windows environment:
+* Port mapping won't persist if a container restarts
+* HBase Master JVM Process `HMaster` stops if a container stops for a while and starts again
+
 ## Create jar and Deploy to the Test Environment
 
 Go to Maven Projects > {Project Name} > Lifecycle. Double click on package. This will create a compiled jar under target in the project directory.
@@ -106,7 +109,7 @@ NOTE: The red lines should disappear after you close and reopen the IntelliJ IDE
 
 Copy the jar file to the docker container
 ```
-docker cp ~/sample-KafkaSparkHBase-1.0-SNAPSHOT.jar aio:/root/
+docker cp /path_to_jar/sample-KafkaSparkHBase-1.0-SNAPSHOT.jar aio:/root/
 ```
 
 In the docker container, use spark-submit to run the Spark job.
