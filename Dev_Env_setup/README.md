@@ -62,7 +62,7 @@ For demo purpose, copy everything from https://github.com/ccbt87/sample-KafkaSpa
 NOTE: Do not worry about the red lines for now.
 
 ## Setup Test Environment
-Memory Configuration for
+Adjust the memory limit to 4 - 8 GB in Advanced Settings of the Docker for Mac or Windows (No configuration needed for Linux)
 
 Pull the Docker image https://hub.docker.com/r/ccbt87/aio/
 ```
@@ -85,7 +85,13 @@ This Docker image uses the Oracle JDK version: 1.8.0_112 (JAVA_HOME=/opt/jdk1.8.
 
 \* The Zookeeper version 3.4.10 comes within the HBase standalone mode does not align with the Zookeeper version 3.4.6 in HDP 3.0.1 and HDF 3.2.0
 
-Before running the image, adjust the memory limit to 4 - 8 GB in advanced settings of the Docker for Mac or Windows (No configuration needed for Linux)
+Scripts under `/root`:
+
+`config-all.sh` is used for config hostname, ports, and other configurations for NiFi, Kafka, Cassandra, and HBase
+
+`start-all.sh` is used for start all the components
+
+`stop-all.sh` is used for stop all the components
 
 Run the image
 ```
