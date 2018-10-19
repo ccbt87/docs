@@ -43,7 +43,7 @@ Go to File > Project Structure > Modules. Verify Language level is set to Java v
 
 ![Level](images/2.4.PNG)
 
-## Import Libraries and Write Code
+## Import Libraries, Write Code and Create jar
 
 Open the pom.xml file in the project directory.
 
@@ -62,6 +62,12 @@ NOTE: If a different hostname was given to the container in the next section, ch
 ![Code](images/4.2.PNG)
 
 NOTE: Do not worry about the red lines for now.
+
+Go to Maven Projects > {Project Name} > Lifecycle. Double click on package. This will create a compiled jar under target in the project directory.
+
+![JAR](images/6.1.PNG)
+
+NOTE: The red lines should disappear after you close and reopen the IntelliJ IDEA.
 
 ## Setup Test Environment
 Adjust the memory limit to 4 - 8 GB in Advanced Settings of the Docker for Mac or Windows (No configuration needed for Linux)
@@ -99,13 +105,7 @@ NOTE: With the `--rm` option Docker will remove the container when it exits. Mak
 * Port mapping won't persist if a container restarts
 * HBase Master JVM Process `HMaster` stops if a container stops for a while and starts again
 
-## Create jar and Deploy to the Test Environment
-
-Go to Maven Projects > {Project Name} > Lifecycle. Double click on package. This will create a compiled jar under target in the project directory.
-
-![JAR](images/6.1.PNG)
-
-NOTE: The red lines should disappear after you close and reopen the IntelliJ IDEA.
+## Deploy jar to the Test Environment
 
 Copy the jar file to the docker container
 ```
