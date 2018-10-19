@@ -76,16 +76,16 @@ Refer to Appendix A for the details about this image.
 
 Run the image. Specify the hostname and the name for the container as needed. If not specified, a short form of UUID will be used as both of the hostname and container name. For demo purpose, this tutorial use `aio` for both names.
 ```
-docker run --hostname aio --name aio --rm -it ccbt87/aio
+docker run --hostname aio --name aio -it ccbt87/aio
 ```
 
 NOTE: Docker for Mac and Windows cannot route traffic to Linux containers. Use following workarounds if needed:
 * To connect to a container from the Mac or Windows, run the image using either one of the following commands and then use localhost:{port} to access the service in container.
   * Use `-p` or `--publish` to publish ports on the container to specific ports on the host.
   ```
-  docker run --hostname aio --name aio --rm -it -p 2181:2181 -p 6667:6667 -p 7077:7077 -p 8080:8080 -p 8081:8081 -p 9042:9042 -p 9090:9090 -p 16010:16010 ccbt87/aio
+  docker run --hostname aio --name aio --rm -it -p 2181:2181 -p 4040:4040 -p 6667:6667 -p 7077:7077 -p 8080:8080 -p 8081:8081 -p 9042:9042 -p 9090:9090 -p 16000:16000 -p 16010:16010 -p 16020:16020 -p 16030:16030 -p 18080:18080 ccbt87/aio
   ```
-  * Use `-P` to exposes pre-defined ports on the container to random ports on the host. (Ports 2181 6667 7077 8080 8081 9042 9090 16010 were defined in the Dockerfile when building this Docker image)
+  * Use `-P` to exposes pre-defined ports on the container to random ports on the host. (Ports 2181 4040 6667 7077 8080 8081 9042 9090 16000 16010 16020 16030 18080 were defined in the Dockerfile when building this Docker image)
   ```
   docker run --hostname aio --name aio --rm -it -P ccbt87/aio
   ```
@@ -95,7 +95,7 @@ NOTE: Docker for Mac and Windows cannot route traffic to Linux containers. Use f
   * The host has a changing IP address (or none if it has no network access). From Docker 18.03 onwards the recommendation is to connect to the special DNS name `host.docker.internal`, which resolves to the internal IP address used by the host. This is for development purpose and will not work in a production environment outside of Docker for Mac or Windows.
   * The gateway is also reachable as `gateway.docker.internal`.
 
-NOTE: With the `--rm` option Docker will remove the container when it exits. Make sure to save the data in the container if there is any. Adding this option is a workaround for two issues in the Mac or Windows environment:
+NOTE: With the `--rm` option Docker will remove the container when it exits. Make sure to save the data in the container if there is any. Adding this option is for bypassing two issues in the Mac or Windows environment:
 * Port mapping won't persist if a container restarts
 * HBase Master JVM Process `HMaster` stops if a container stops for a while and starts again
 
@@ -131,8 +131,8 @@ Following components were included in this Docker image:
 | Component | Version | Binary Location | Port |
 | --- | --- | --- | --- |
 | Kafka | 1.1.1 | /opt/kafka_2.11-1.1.1 | Listener 6667 |
-| Spark* | 2.3.1 | /opt/spark-2.3.1-bin-hadoop2.7 | Master Web UI 8080 <br> Worker Web UI 8081 <br> Master 7077 |
-| HBase | 2.0.0 | /opt/hbase-2.0.0 | Master 16010 |
+| Spark* | 2.3.1 | /opt/spark-2.3.1-bin-hadoop2.7 | Master 7077 <br> Master Web UI 8080 <br> Worker Web UI 8081 <br> Application Web UI 4040 <br> History Server Web UI 18080 |
+| HBase | 2.0.0 | /opt/hbase-2.0.0 | Master 16000 <br> Master Web UI 16010 <br> RegionServer 16020 <br> RegionServer Web UI 16030 |
 | Zookeeper* | 3.4.10 | | Client Port 2181 |
 | Cassandra | 3.11.3 | /opt/apache-cassandra-3.11.3 | Client Port 9042 |
 | NiFi | 1.7.0 | /opt/nifi-1.7.0 | Web UI 9090 |

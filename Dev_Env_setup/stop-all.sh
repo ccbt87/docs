@@ -1,31 +1,31 @@
 #!/bin/bash
-echo "Script start"
+echo ">>>>>>>>>> Script start <<<<<<<<<<"
 
 # Kill Cassandra
-echo "Stopping Cassandra"
+echo "> Cassandra stopping"
 pkill -f cassandra
-echo "Cassandra stopped"
+echo "> Cassandra stopped"
 
 # Stop Kafka
-echo "Stopping Kafka"
+echo "> Kafka stopping"
 /opt/kafka_2.11-1.1.1/bin/kafka-server-stop.sh
 #/opt/kafka_2.11-1.1.1/bin/zookeeper-server-stop.sh
-echo "Kafka stopped"
+echo "> Kafka stopped"
 
 # Stop HBase with Zookeeper
-echo "Stopping HBase"
+echo "> HBase stopping"
 /opt/hbase-2.0.0/bin/stop-hbase.sh
-echo "HBase stopped"
+echo "> HBase stopped"
 
 # Stop Spark
-echo "Stopping Spark"
+echo "> Spark stopping"
 /opt/spark-2.3.1-bin-hadoop2.7/sbin/stop-slave.sh
 /opt/spark-2.3.1-bin-hadoop2.7/sbin/stop-master.sh
-echo "Spark stopped"
+echo "> Spark stopped"
 
 # Stop NiFi
-echo "Stopping NiFi"
+echo "> NiFi stopping"
 /opt/nifi-1.7.0/bin/nifi.sh stop
-echo "NiFi stopped"
+echo "> NiFi stopped"
 
-echo "Script end"
+echo ">>>>>>>>>> Script end <<<<<<<<<<"
