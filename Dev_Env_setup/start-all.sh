@@ -1,5 +1,5 @@
 #!/bin/bash
-echo ">>>>>>>>>> Script start <<<<<<<<<<"
+echo ">>>>>>>>>> Script begin <<<<<<<<<<"
 
 # Start Cassandra
 echo "> Cassandra starting"

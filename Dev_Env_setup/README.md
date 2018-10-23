@@ -80,7 +80,7 @@ docker pull ccbt87/aio
 ```
 Refer to Appendix A for the details about this image.
 
-Run the image. Specify the hostname and the name for the container as needed. If not specified, a short form of UUID will be used as both of the hostname and container name. For demo purpose, this tutorial use `aio` for both names.
+Run the image. Specify the hostname and the name for the container as needed. If not specified, a short form of UUID will be used as the hostname, and the container name will be given randomly. For demo purpose, this tutorial use `aio` for both names.
 ```
 docker run --hostname aio --name aio -it ccbt87/aio
 ```
