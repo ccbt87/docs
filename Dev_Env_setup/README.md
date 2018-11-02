@@ -1,5 +1,55 @@
 # Spark Local Development Environment Setup with Java and Maven
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
+- [Spark Local Development Environment Setup with Java and Maven](#spark-local-development-environment-setup-with-java-and-maven)
+	- [1. JDK Setup](#1-jdk-setup)
+		- [1.1 Download JDK](#11-download-jdk)
+		- [1.2 Install JDK](#12-install-jdk)
+	- [2. IDE Setup](#2-ide-setup)
+		- [2.1 Download and Install IntelliJ IDEA](#21-download-and-install-intellij-idea)
+			- [Windows 10/8/7/Vista/2003/XP (incl.64-bit)](#windows-1087vista2003xp-incl64-bit)
+			- [MacOS 10.8.3 or higher](#macos-1083-or-higher)
+			- [Linux GNOME or KDE desktop](#linux-gnome-or-kde-desktop)
+		- [2.2 Create IntelliJ Project](#22-create-intellij-project)
+		- [2.3 Change IntelliJ Settings](#23-change-intellij-settings)
+		- [2.4 Import Libraries](#24-import-libraries)
+		- [2.5 Write Code](#25-write-code)
+		- [2.6 Create Fat Jar](#26-create-fat-jar)
+	- [3. Docker Setup](#3-docker-setup)
+		- [3.1 Download and Install Docker](#31-download-and-install-docker)
+			- [Windows 10 64bit: Pro, Enterprise or Education (1607 Anniversary Update, Build 14393 or later)](#windows-10-64bit-pro-enterprise-or-education-1607-anniversary-update-build-14393-or-later)
+			- [MacOS El Capitan 10.11 and newer](#macos-el-capitan-1011-and-newer)
+			- [Linux (OS requirement varies)](#linux-os-requirement-varies)
+		- [3.2 Memory Configuration](#32-memory-configuration)
+			- [Windows](#windows)
+			- [MacOS](#macos)
+			- [Linux](#linux)
+		- [3.3 Pull Image from Docker Hub](#33-pull-image-from-docker-hub)
+		- [3.4 Run the Image to Create Docker Container](#34-run-the-image-to-create-docker-container)
+			- [Windows or Mac](#windows-or-mac)
+			- [Linux](#linux)
+	- [4. Run the Sample Spark Job](#4-run-the-sample-spark-job)
+		- [4.1 Create Kafka Topic](#41-create-kafka-topic)
+		- [4.2 Create HBase Table](#42-create-hbase-table)
+		- [4.3 Copy Jar File to Container and Submit to Spark](#43-copy-jar-file-to-container-and-submit-to-spark)
+		- [4.4 Publish Data to Kafka](#44-publish-data-to-kafka)
+		- [4.5 Check Results in HBase](#45-check-results-in-hbase)
+	- [5. Live Debugging (Not working)](#5-live-debugging-not-working)
+	- [Docker Toolbox Setup](#docker-toolbox-setup)
+	- [VirtualBox Setup](#virtualbox-setup)
+	- [VMware Setup](#vmware-setup)
+	- [References](#references)
+	- [Appendix](#appendix)
+		- [Appendix A - Docker Image Info](#appendix-a-docker-image-info)
+		- [Appendix B - Known Issues](#appendix-b-known-issues)
+			- [1. HBase Master, HBase RegionServer, ZooKeeper, or Kafka Stop Working After Restart the Docker Container](#1-hbase-master-hbase-regionserver-zookeeper-or-kafka-stop-working-after-restart-the-docker-container)
+				- [Symptom](#symptom)
+				- [Cause](#cause)
+				- [Solution](#solution)
+				- [Workarounds](#workarounds)
+			- [2. Port mapping won't persist if a container restarts? (Need confirmation)](#2-port-mapping-wont-persist-if-a-container-restarts-need-confirmation)
+
+<!-- /TOC -->
 NOTE: Instructions may vary. This tutorial is based on following environment:
 
 * Windows 10 1803
@@ -26,7 +76,7 @@ Click on the download link that matches your OS
 
 ### 1.2 Install JDK
 
-TODO
+
 
 ## 2. IDE Setup
 
@@ -202,7 +252,7 @@ After the docker run command finished, the console will be attached to the shell
 
 ![Run](images/5.4.PNG)
 
-Use following docker command to open as many container shell as you want.
+Use following docker command in the host console to open as many new container shell as you want.
 ```
 docker exec -it aio /bin/bash
 ```
@@ -218,7 +268,7 @@ In the container shell, create a topic
 
 ![Kafka](images/7.1.PNG)
 
-### 4.2 Create Table in HBase
+### 4.2 Create HBase Table
 
 In the container shell, start the HBase shell
 ```
@@ -259,7 +309,7 @@ Enter some words:
 
 ![Kafka](images/7.4.PNG)
 
-In the container shell that the Spark job is running, you should see the word counts:
+In the container shell in which the Spark job is running, you should see the word counts:
 
 ![Spark](images/7.4.2.PNG)
 
@@ -279,7 +329,7 @@ You should see the word counts:
 
 ![HBase](images/7.5.PNG)
 
-## 5. Live Debugging
+## 5. Live Debugging (Not working)
 
 On the machine where you plan on submitting your Spark job, run this line from the terminal:
 ```
@@ -342,7 +392,7 @@ Scripts under `/root`:
 
 ##### Cause
 
-Time Change cause ZooKeeper Session expiring
+Time change cause ZooKeeper Session expiring
 
 ##### Solution
 
