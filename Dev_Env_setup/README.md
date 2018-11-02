@@ -1,10 +1,24 @@
 # Spark Local Development Environment Setup with Java and Maven
+
+TMTOWTDI: Instructions may vary. This tutorial is based on following environment:
+
+* Windows 10 1803
+* JDK 8u112
+* IntelliJ IDEA 2018.2.4
+* Maven 3.3.9 (The bundled version comes within the IDEA)
+* Docker 18.06.1-ce
+
+## Table of Content
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [Spark Local Development Environment Setup with Java and Maven](#spark-local-development-environment-setup-with-java-and-maven)
+	- [Table of Content](#table-of-content)
 	- [1. JDK Setup](#1-jdk-setup)
 		- [1.1 Download JDK](#11-download-jdk)
 		- [1.2 Install JDK](#12-install-jdk)
+			- [Windows](#windows)
+			- [MacOS](#macos)
+			- [Linux](#linux)
 	- [2. IDE Setup](#2-ide-setup)
 		- [2.1 Download and Install IntelliJ IDEA](#21-download-and-install-intellij-idea)
 			- [Windows 10/8/7/Vista/2003/XP (incl.64-bit)](#windows-1087vista2003xp-incl64-bit)
@@ -35,9 +49,9 @@
 		- [4.4 Publish Data to Kafka](#44-publish-data-to-kafka)
 		- [4.5 Check Results in HBase](#45-check-results-in-hbase)
 	- [5. Live Debugging (Not working)](#5-live-debugging-not-working)
-	- [Docker Toolbox Setup](#docker-toolbox-setup)
-	- [VirtualBox Setup](#virtualbox-setup)
-	- [VMware Setup](#vmware-setup)
+	- [Docker Toolbox Setup (TODO)](#docker-toolbox-setup-todo)
+	- [VirtualBox Setup (TODO)](#virtualbox-setup-todo)
+	- [VMware Setup (TODO)](#vmware-setup-todo)
 	- [References](#references)
 	- [Appendix](#appendix)
 		- [Appendix A - Docker Image Info](#appendix-a-docker-image-info)
@@ -50,13 +64,6 @@
 			- [2. Port mapping won't persist if a container restarts? (Need confirmation)](#2-port-mapping-wont-persist-if-a-container-restarts-need-confirmation)
 
 <!-- /TOC -->
-NOTE: Instructions may vary. This tutorial is based on following environment:
-
-* Windows 10 1803
-* JDK 8u112
-* IntelliJ IDEA 2018.2.4
-* Maven 3.3.9 (The bundled version comes within the IDEA)
-* Docker 18.06.1-ce
 
 ## 1. JDK Setup
 
@@ -76,7 +83,64 @@ Click on the download link that matches your OS
 
 ### 1.2 Install JDK
 
+#### Windows
 
+1. Double-click the `jdk-8u112-windows-{version}.exe` file to open the installer. Then follow the instructions the installer provides.
+
+2. Set the environment variables
+
+  1. Go to Advanced system settings > Environment Variables.
+
+  2. Under System Variables. Create the new variable name `JAVA_HOME` and variable value `C:\Program Files\Java\jdk1.8.0_112`
+
+  3. Find the Path variable, add `%JAVA_HOME%\bin` to the Path variable.
+
+#### MacOS
+
+1. From either the Downloads window of the browser, or from the file browser, double click the .dmg file to launch it.
+
+  A Finder window appears containing an icon of an open box and the name of the .pkg file.
+
+2. Double click the package icon to launch the Install app.
+
+  The Install app displays the Introduction window.
+
+  Note: In some cases, a Destination Select window appears. This is a bug, as there is only one option available. If you see this window, select Install for all users of this computer to enable the Continue button.
+
+3. Click Continue.
+
+  The Installation Type window appears.
+
+4. Click Install.
+
+  A window appears that says "Installer is trying to install new software. Type your password to allow this."
+
+5. Enter the Administrator login and password and click Install Software.
+
+  The software is installed and a confirmation window appears.
+
+#### Linux
+
+1. unpack the tarball
+``` bash
+tar zxf jdk-8u112-linux-{version}.tar.gz -C /opt
+```
+
+2. Use `alternatives` to install JDK
+``` bash
+alternatives --install /usr/bin/java java /opt/jdk1.8.0_112/bin/java 2
+alternatives --install /usr/bin/jar jar /opt/jdk1.8.0_112/bin/jar 2
+alternatives --install /usr/bin/javac javac /opt/jdk1.8.0_112/bin/javac 2
+alternatives --set java /opt/jdk1.8.0_112/bin/java
+alternatives --set jar /opt/jdk1.8.0_112/bin/jar
+alternatives --set javac /opt/jdk1.8.0_112/bin/javac
+```
+
+3. Set environment variable
+``` bash
+export JAVA_HOME=/opt/jdk1.8.0_112
+export PATH=$JAVA_HOME/bin:$PATH
+```
 
 ## 2. IDE Setup
 
@@ -336,17 +400,17 @@ On the machine where you plan on submitting your Spark job, run this line from t
 export SPARK_JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8086
 ```
 
-## Docker Toolbox Setup
+## Docker Toolbox Setup (TODO)
 
-TODO
 
-## VirtualBox Setup
 
-TODO
+## VirtualBox Setup (TODO)
 
-## VMware Setup
 
-TODO
+
+## VMware Setup (TODO)
+
+
 
 ## References
 https://hortonworks.com/tutorial/setting-up-a-spark-development-environment-with-java/
