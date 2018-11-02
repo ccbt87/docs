@@ -89,35 +89,35 @@ Click on the download link that matches your OS
 
 2. Set the environment variables
 
-  1. Go to Advanced system settings > Environment Variables.
+	1. Go to Advanced system settings > Environment Variables.
 
-  2. Under System Variables. Create the new variable name `JAVA_HOME` and variable value `C:\Program Files\Java\jdk1.8.0_112`
+	2. Under System Variables. Create the new variable name `JAVA_HOME` and variable value `C:\Program Files\Java\jdk1.8.0_112`
 
-  3. Find the Path variable, add `%JAVA_HOME%\bin` to the Path variable.
+	3. Find the Path variable, add `%JAVA_HOME%\bin` to the Path variable.
 
 #### MacOS
 
 1. From either the Downloads window of the browser, or from the file browser, double click the .dmg file to launch it.
 
-  A Finder window appears containing an icon of an open box and the name of the .pkg file.
+	A Finder window appears containing an icon of an open box and the name of the .pkg file.
 
 2. Double click the package icon to launch the Install app.
 
-  The Install app displays the Introduction window.
+	The Install app displays the Introduction window.
 
-  Note: In some cases, a Destination Select window appears. This is a bug, as there is only one option available. If you see this window, select Install for all users of this computer to enable the Continue button.
+	Note: In some cases, a Destination Select window appears. This is a bug, as there is only one option available. If you see this window, select Install for all users of this computer to enable the Continue button.
 
 3. Click Continue.
 
-  The Installation Type window appears.
+	The Installation Type window appears.
 
 4. Click Install.
 
-  A window appears that says "Installer is trying to install new software. Type your password to allow this."
+	A window appears that says "Installer is trying to install new software. Type your password to allow this."
 
 5. Enter the Administrator login and password and click Install Software.
 
-  The software is installed and a confirmation window appears.
+	The software is installed and a confirmation window appears.
 
 #### Linux
 
