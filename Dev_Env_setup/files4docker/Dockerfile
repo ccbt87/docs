@@ -26,9 +26,10 @@ RUN alternatives --set javac /opt/jdk1.8.0_112/bin/javac
 COPY stop-all.sh /root
 COPY start-all.sh /root
 COPY config-all.sh /root
+COPY init_hbase_table.sh /root
 
 # expose ports
-EXPOSE 2181 4040 6667 7077 8080 8081 9042 9090 16000 16010 16020 16030 18080
+EXPOSE 2181 4040 6667 7077 8080 8081 8086 9042 9090 16000 16010 16020 16030 18080
 
 WORKDIR /root
 

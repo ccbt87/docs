@@ -1,7 +1,6 @@
 # Spark Local Development Environment Setup with Java and Maven
 
-TMTOWTDI: Instructions may vary. This tutorial is based on following environment:
-
+> TMTOWTDI: Instructions may vary. This tutorial is based on following environment:
 * Windows 10 1803
 * JDK 8u112
 * IntelliJ IDEA 2018.2.4
@@ -105,7 +104,7 @@ Click on the download link that matches your OS
 
 	The Install app displays the Introduction window.
 
-	Note: In some cases, a Destination Select window appears. This is a bug, as there is only one option available. If you see this window, select Install for all users of this computer to enable the Continue button.
+	> NOTE: In some cases, a Destination Select window appears. This is a bug, as there is only one option available. If you see this window, select Install for all users of this computer to enable the Continue button.
 
 3. Click Continue.
 
@@ -121,7 +120,7 @@ Click on the download link that matches your OS
 
 #### Linux
 
-1. unpack the tarball
+1. Extract the tarball
 ``` bash
 tar zxf jdk-8u112-linux-{version}.tar.gz -C /opt
 ```
@@ -185,7 +184,7 @@ IntelliJ should make a new project with a default directory structure.
 
 ### 2.3 Change IntelliJ Settings
 
-OPTIONAL: To use different Maven version, go to File > Settings > Build, Execution, Deployment > Build Tools > Maven. Change the Maven home directory.
+> OPTIONAL: To use different Maven version, go to File > Settings > Build, Execution, Deployment > Build Tools > Maven. Change the Maven home directory.
 
 ![Maven](images/2.1.PNG)
 
@@ -217,11 +216,11 @@ Select the folder `src/main/java` in the project directory. Right-click on folde
 
 For demo purpose, copy everything from https://github.com/ccbt87/sample-KafkaSparkHBase/blob/master/src/main/java/KafkaSparkHBase.java to it.
 
-NOTE: If a different hostname was given to the container in the next section, change the hostname in the code accordingly.
+> NOTE: If a different hostname was given to the container in the next section, change the hostname in the code accordingly.
 
 ![Code](images/4.2.PNG)
 
-NOTE: Do not worry about the red lines for now.
+> NOTE: Do not worry about the red lines for now.
 
 ### 2.6 Create Fat Jar
 
@@ -229,7 +228,7 @@ Go to Maven Projects > {Project Name} > Lifecycle. Double click on package. This
 
 ![JAR](images/6.1.PNG)
 
-NOTE: The red lines should disappear after you close and reopen the IntelliJ IDEA.
+> NOTE: The red lines should disappear after you close and reopen the IntelliJ IDEA.
 
 ## 3. Docker Setup
 
@@ -247,7 +246,7 @@ NOTE: The red lines should disappear after you close and reopen the IntelliJ IDE
 * Select the corresponding Linux distribution in the `Linux` dropdown menu on the left side in the link https://docs.docker.com/install/,
 * Follow the instructions in the webpage to install Docker for Linux
 
-NOTE: For previous OS versions, use Docker Toolbox (legacy): https://docs.docker.com/toolbox/overview/
+> NOTE: For previous OS versions, use Docker Toolbox (legacy): https://docs.docker.com/toolbox/overview/
 
 ### 3.2 Memory Configuration
 
@@ -281,7 +280,7 @@ Open a console. Pull the Docker image https://hub.docker.com/r/ccbt87/aio/
 ```
 docker pull ccbt87/aio
 ```
-Refer to Appendix A for the details about this image.
+> Refer to Appendix A for the details about this image.
 
 ### 3.4 Run the Image to Create Docker Container
 
@@ -289,7 +288,7 @@ Use docker run command to run the image. Specify the hostname and the name for t
 
 #### Windows or Mac
 
-NOTE: Docker for Mac and Windows cannot route traffic to Linux containers. Use the following workaround:
+Docker for Mac and Windows cannot route traffic to Linux containers. Use the following workaround:
 * To connect to a container from the Mac or Windows, run the image using either one of the following commands and then use localhost:{port} to access the service in the container.
   * Use `-p` or `--publish` to publish ports on the container to specific ports on the host.
   ```
@@ -334,15 +333,12 @@ In the container shell, create a topic
 
 ### 4.2 Create HBase Table
 
-In the container shell, start the HBase shell
+In the container shell, send create command to HBase shell
 ```
-/opt/hbase-2.0.0/bin/hbase shell
+echo "create 'test-table', 'word-count'" | /opt/hbase-2.0.0/bin/hbase shell
 ```
 
-Create a table
-```
-create 'test-table', 'word-count'
-```
+> OPTIONAL: you can use the `init_hbase_table.sh` to create or drop the HBase table. Refer to Appendix A for the usage
 
 ![HBase](images/7.2.PNG)
 
@@ -379,14 +375,9 @@ In the container shell in which the Spark job is running, you should see the wor
 
 ### 4.5 Check Results in HBase
 
-In the container shell, start the HBase shell
+In the container shell, send scan command to HBase shell
 ```
-/opt/hbase-2.0.0/bin/hbase shell
-```
-
-Scan the table
-```
-scan 'test-table'
+echo "scan 'test-table'" | /opt/hbase-2.0.0/bin/hbase shell
 ```
 
 You should see the word counts:
@@ -446,6 +437,21 @@ Scripts under `/root`:
 
 `stop-all.sh` is used for stop all the components
 
+`init-hbase-table.sh` is used for create or drop HBase table
+
+	Supply no argument will first try to disable and drop the default table name `test-table`, and then create the same table name with the default column family `word-count`
+	```
+	./init-hbase-table.sh
+	```
+	Supply one argument will try to disable and drop the specified table name
+	```
+	./init-hbase-table.sh table_name
+	```
+	Supply two arguments will first try to disable and drop the specified table name, and then create the same table name with the column family
+	```
+	./init-hbase-table.sh table_name columnfamily_name
+	```
+
 ### Appendix B - Known Issues
 #### 1. HBase Master, HBase RegionServer, ZooKeeper, or Kafka Stop Working After Restart the Docker Container
 
@@ -473,6 +479,6 @@ None
 ```
 docker run --hostname aio --name aio --rm -it -p 2181:2181 -p 4040:4040 -p 6667:6667 -p 7077:7077 -p 8080:8080 -p 8081:8081 -p 8086:8086 -p 9042:9042 -p 9090:9090 -p 16000:16000 -p 16010:16010 -p 16020:16020 -p 16030:16030 -p 18080:18080 ccbt87/aio
 ```
-NOTE: With the `--rm` option Docker will remove the container when it exits. Make sure to save the data in the container if there is any.
+> NOTE: With the `--rm` option Docker will remove the container when it exits. Make sure to save the data in the container if there is any.
 
 #### 2. Port mapping won't persist if a container restarts? (Need confirmation)
