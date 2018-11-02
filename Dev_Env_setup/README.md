@@ -10,11 +10,27 @@ NOTE: Instructions may vary. This tutorial is based on following environment:
 
 ## 1. JDK Setup
 
+### 1.1 Download JDK
+
+Go to https://www.oracle.com/technetwork/java/javase/downloads/java-archive-javase8-2177648.html
+
+Sign in with your Oracle Account. If you don't have one, create an account first
+
+Find Java SE Development Kit 8u112
+
+Select `Accept License Agreement`
+
+Click on the download link that matches your OS
+
+![JDK](images/0.1.PNG)
+
+### 1.2 Install JDK
+
 TODO
 
 ## 2. IDE Setup
 
-### Download and Install IntelliJ IDEA
+### 2.1 Download and Install IntelliJ IDEA
 Select and download the installation package that matches your OS from the official website: https://www.jetbrains.com/idea/download
 
 #### Windows 10/8/7/Vista/2003/XP (incl.64-bit)
@@ -33,7 +49,7 @@ tar -xzf idea-{version}.tar.gz
 ```
 * Run `idea.sh` from the bin subdirectory.
 
-### Create IntelliJ Project
+### 2.2 Create IntelliJ Project
 
 Launch the IntelliJ IDEA.
 
@@ -53,7 +69,7 @@ IntelliJ should make a new project with a default directory structure.
 
 ![Project](images/1.4.PNG)
 
-### Change IntelliJ Settings
+### 2.3 Change IntelliJ Settings
 
 OPTIONAL: To use different Maven version, go to File > Settings > Build, Execution, Deployment > Build Tools > Maven. Change the Maven home directory.
 
@@ -71,7 +87,7 @@ Go to File > Project Structure > Modules. Verify Language level is set to Java v
 
 ![Level](images/2.4.PNG)
 
-### Import Libraries
+### 2.4 Import Libraries
 
 Open the pom.xml file in the project directory.
 
@@ -79,7 +95,7 @@ For demo purpose, copy everything from https://github.com/ccbt87/sample-KafkaSpa
 
 ![POM](images/3.1.PNG)
 
-### Write Code
+### 2.5 Write Code
 
 Select the folder `src/main/java` in the project directory. Right-click on folder and select New > Java Class. Name the class: KafkaSparkHBase.java
 
@@ -93,7 +109,7 @@ NOTE: If a different hostname was given to the container in the next section, ch
 
 NOTE: Do not worry about the red lines for now.
 
-### Create Fat Jar
+### 2.6 Create Fat Jar
 
 Go to Maven Projects > {Project Name} > Lifecycle. Double click on package. This will create a compiled jar under target in the project directory.
 
@@ -103,7 +119,7 @@ NOTE: The red lines should disappear after you close and reopen the IntelliJ IDE
 
 ## 3. Docker Setup
 
-### Download and Install Docker
+### 3.1 Download and Install Docker
 
 #### Windows 10 64bit: Pro, Enterprise or Education (1607 Anniversary Update, Build 14393 or later)
 * Log in and download the `Docker for Windows Installer.exe` at https://store.docker.com/editions/community/docker-ce-desktop-windows
@@ -119,38 +135,53 @@ NOTE: The red lines should disappear after you close and reopen the IntelliJ IDE
 
 NOTE: For previous OS versions, use Docker Toolbox (legacy): https://docs.docker.com/toolbox/overview/
 
-### Adjust the Resources Limit
+### 3.2 Memory Configuration
 
-Go to Docker > Settings
+#### Windows
+
+Right click on the Docker icon. Select Settings.
 
 ![Settings](images/5.0.PNG)
 
-Go to Advanced tab, adjust the memory limit to 4 - 8 GB for Mac or Windows (No configuration needed for Linux)
+Select Advanced tab, adjust the memory limit to 4 - 8 GB
 
 ![Memory](images/5.1.PNG)
 
-### Pull Image from Docker Hub
+#### MacOS
 
-Pull the Docker image https://hub.docker.com/r/ccbt87/aio/
+Click on the Docker icon in the menu bar. Select Preferences.
+
+![Settings](images/5.2.PNG)
+
+Select Advanced tab, adjust the memory limit to 4 - 8 GB
+
+![Memory](images/5.3.PNG)
+
+#### Linux
+
+No configuration needed for Linux
+
+### 3.3 Pull Image from Docker Hub
+
+Open a console. Pull the Docker image https://hub.docker.com/r/ccbt87/aio/
 ```
 docker pull ccbt87/aio
 ```
 Refer to Appendix A for the details about this image.
 
-### Run the Image to Create Docker Container
+### 3.4 Run the Image to Create Docker Container
 
-Specify the hostname and the name for the container as needed. If not specified, a short form of UUID will be used as the hostname, and a random name will be given to the container. For demo purpose, this tutorial use `aio` for both names.
-```
-docker run --hostname aio --name aio -it ccbt87/aio
-```
+Use docker run command to run the image. Specify the hostname and the name for the container as needed. If not specified, a short form of UUID will be used as the hostname, and a random name will be given to the container. For demo purpose, this tutorial use `aio` for both names.
 
-NOTE: Docker for Mac and Windows cannot route traffic to Linux containers. Use following workarounds if needed:
-* To connect to a container from the Mac or Windows, run the image using either one of the following commands and then use localhost:{port} to access the service in container.
+#### Windows or Mac
+
+NOTE: Docker for Mac and Windows cannot route traffic to Linux containers. Use the following workaround:
+* To connect to a container from the Mac or Windows, run the image using either one of the following commands and then use localhost:{port} to access the service in the container.
   * Use `-p` or `--publish` to publish ports on the container to specific ports on the host.
   ```
-  docker run --hostname aio --name aio -it -p 2181:2181 -p 4040:4040 -p 6667:6667 -p 7077:7077 -p 8080:8080 -p 8081:8081 -p 9042:9042 -p 9090:9090 -p 16000:16000 -p 16010:16010 -p 16020:16020 -p 16030:16030 -p 18080:18080 ccbt87/aio
+  docker run --hostname aio --name aio -it -p 2181:2181 -p 4040:4040 -p 6667:6667 -p 7077:7077 -p 8080:8080 -p 8081:8081 -p 8086:8086 -p 9042:9042 -p 9090:9090 -p 16000:16000 -p 16010:16010 -p 16020:16020 -p 16030:16030 -p 18080:18080 ccbt87/aio
   ```
-  * Use `-P` to exposes pre-defined ports on the container to random ports on the host. (Ports 2181 4040 6667 7077 8080 8081 9042 9090 16000 16010 16020 16030 18080 were defined in the Dockerfile when building this Docker image)
+  * Use `-P` to exposes pre-defined ports on the container to random ports on the host. (Ports 2181 4040 6667 7077 8080 8081 8086 9042 9090 16000 16010 16020 16030 18080 were defined in the Dockerfile when building this Docker image)
   ```
   docker run --hostname aio --name aio -it -P ccbt87/aio
   ```
@@ -160,16 +191,99 @@ NOTE: Docker for Mac and Windows cannot route traffic to Linux containers. Use f
   * The host has a changing IP address (or none if it has no network access). From Docker 18.03 onwards the recommendation is to connect to the special DNS name `host.docker.internal`, which resolves to the internal IP address used by the host. This is for development purpose and will not work in a production environment outside of Docker for Mac or Windows.
   * The gateway is also reachable as `gateway.docker.internal`.
 
-### Deploy Jar to the Container
+#### Linux
 
-Copy the jar file to the docker container
+No port mapping needed on Linux
+```
+docker run --hostname aio --name aio -it ccbt87/aio
+```
+
+After the docker run command finished, the console will be attached to the shell of the container as the `-it` option tells Docker to run the container in foreground mode.
+
+![Run](images/5.4.PNG)
+
+Use following docker command to open as many container shell as you want.
+```
+docker exec -it aio /bin/bash
+```
+
+## 4. Run the Sample Spark Job
+
+### 4.1 Create Kafka Topic
+
+In the container shell, create a topic
+```
+/opt/kafka_2.11-1.1.1/bin/kafka-topics.sh --create --zookeeper aio:2181 --replication-factor 1 --partitions 1 --topic test-topic
+```
+
+![Kafka](images/7.1.PNG)
+
+### 4.2 Create Table in HBase
+
+In the container shell, start the HBase shell
+```
+/opt/hbase-2.0.0/bin/hbase shell
+```
+
+Create a table
+```
+create 'test-table', 'word-count'
+```
+
+![HBase](images/7.2.PNG)
+
+### 4.3 Copy Jar File to Container and Submit to Spark
+
+In the host console, copy the jar file to the container
 ```
 docker cp /path_to_jar/sample-KafkaSparkHBase-1.0-SNAPSHOT.jar aio:/root/
 ```
 
-In the docker container, use spark-submit to run the Spark job.
+In the container shell, use spark-submit to run the Spark job.
 ```
 /opt/spark-2.3.1-bin-hadoop2.7/bin/spark-submit --class KafkaSparkHBase /root/sample-KafkaSparkHBase-1.0-SNAPSHOT.jar
+```
+
+Once you see the time elapses, the Spark job is running.
+
+![Spark](images/7.3.PNG)
+
+### 4.4 Publish Data to Kafka
+
+In the container shell, use `kafka-console-producer.sh`
+```
+/opt/kafka_2.11-1.1.1/bin/kafka-console-producer.sh --broker-list aio:6667 --topic test-topic
+```
+
+Enter some words:
+
+![Kafka](images/7.4.PNG)
+
+In the container shell that the Spark job is running, you should see the word counts:
+
+![Spark](images/7.4.2.PNG)
+
+### 4.5 Check Results in HBase
+
+In the container shell, start the HBase shell
+```
+/opt/hbase-2.0.0/bin/hbase shell
+```
+
+Scan the table
+```
+scan 'test-table'
+```
+
+You should see the word counts:
+
+![HBase](images/7.5.PNG)
+
+## 5. Live Debugging
+
+On the machine where you plan on submitting your Spark job, run this line from the terminal:
+```
+export SPARK_JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8086
 ```
 
 ## Docker Toolbox Setup
@@ -228,7 +342,7 @@ Scripts under `/root`:
 
 ##### Cause
 
-Time Change
+Time Change cause ZooKeeper Session expiring
 
 ##### Solution
 
@@ -243,8 +357,8 @@ None
 
 2. Add `--rm` option when running the Docker image
 ```
-docker run --hostname aio --name aio --rm -it -p 2181:2181 -p 4040:4040 -p 6667:6667 -p 7077:7077 -p 8080:8080 -p 8081:8081 -p 9042:9042 -p 9090:9090 -p 16000:16000 -p 16010:16010 -p 16020:16020 -p 16030:16030 -p 18080:18080 ccbt87/aio
+docker run --hostname aio --name aio --rm -it -p 2181:2181 -p 4040:4040 -p 6667:6667 -p 7077:7077 -p 8080:8080 -p 8081:8081 -p 8086:8086 -p 9042:9042 -p 9090:9090 -p 16000:16000 -p 16010:16010 -p 16020:16020 -p 16030:16030 -p 18080:18080 ccbt87/aio
 ```
 NOTE: With the `--rm` option Docker will remove the container when it exits. Make sure to save the data in the container if there is any.
 
-#### 2. Port mapping won't persist if a container restarts?
+#### 2. Port mapping won't persist if a container restarts? (Need confirmation)
