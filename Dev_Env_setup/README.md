@@ -461,20 +461,20 @@ Scripts under `/root`:
 
 `stop-all.sh` is used for stop all the components
 
-`init-hbase-table.sh` is used for create or drop HBase table
+`init-hbase-table.sh` is used for create or drop HBase table:
 
-	Supply no argument will first try to disable and drop the default table name `test-table`, and then create the same table name with the default column family `word-count`
-	```
-	./init-hbase-table.sh
-	```
-	Supply one argument will try to disable and drop the specified table name
-	```
-	./init-hbase-table.sh table_name
-	```
-	Supply two arguments will first try to disable and drop the specified table name, and then create the same table name with the column family
-	```
-	./init-hbase-table.sh table_name columnfamily_name
-	```
+Supply no argument will first try to disable and drop the default table name `test-table`, and then create the same table name with the default column family `word-count`
+```
+./init-hbase-table.sh
+```
+Supply one argument will try to disable and drop the specified table name
+```
+./init-hbase-table.sh table_name
+```
+Supply two arguments will first try to disable and drop the specified table name, and then create the same table name with the column family
+```
+./init-hbase-table.sh table_name columnfamily_name
+```
 
 ### Appendix B - Known Issues
 #### 1. HBase Master, HBase RegionServer, ZooKeeper, Kafka, or Other Components Stop Working After the Docker Container or the Host Restarts
