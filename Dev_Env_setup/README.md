@@ -8,61 +8,7 @@
 * Docker 18.06.1-ce
 
 ## Table of Content
-<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-- [Spark Local Development Environment Setup with Java and Maven](#spark-local-development-environment-setup-with-java-and-maven)
-	- [Table of Content](#table-of-content)
-	- [1. JDK Setup](#1-jdk-setup)
-		- [1.1 Download JDK](#11-download-jdk)
-		- [1.2 Install JDK](#12-install-jdk)
-			- [Windows](#windows)
-			- [MacOS](#macos)
-			- [Linux](#linux)
-	- [2. IDE Setup](#2-ide-setup)
-		- [2.1 Download and Install IntelliJ IDEA](#21-download-and-install-intellij-idea)
-			- [Windows 10/8/7/Vista/2003/XP (incl.64-bit)](#windows-1087vista2003xp-incl64-bit)
-			- [MacOS 10.8.3 or higher](#macos-1083-or-higher)
-			- [Linux GNOME or KDE desktop](#linux-gnome-or-kde-desktop)
-		- [2.2 Create IntelliJ Project](#22-create-intellij-project)
-		- [2.3 Change IntelliJ Settings](#23-change-intellij-settings)
-		- [2.4 Import Libraries](#24-import-libraries)
-		- [2.5 Write Code](#25-write-code)
-		- [2.6 Create Fat Jar](#26-create-fat-jar)
-	- [3. Docker Setup](#3-docker-setup)
-		- [3.1 Download and Install Docker](#31-download-and-install-docker)
-			- [Windows 10 64bit: Pro, Enterprise or Education (1607 Anniversary Update, Build 14393 or later)](#windows-10-64bit-pro-enterprise-or-education-1607-anniversary-update-build-14393-or-later)
-			- [MacOS El Capitan 10.11 and newer](#macos-el-capitan-1011-and-newer)
-			- [Linux (OS requirement varies)](#linux-os-requirement-varies)
-		- [3.2 Memory Configuration](#32-memory-configuration)
-			- [Windows](#windows)
-			- [MacOS](#macos)
-			- [Linux](#linux)
-		- [3.3 Pull Image from Docker Hub](#33-pull-image-from-docker-hub)
-		- [3.4 Run the Image to Create Docker Container](#34-run-the-image-to-create-docker-container)
-			- [Windows or Mac](#windows-or-mac)
-			- [Linux](#linux)
-	- [4. Run the Sample Spark Job](#4-run-the-sample-spark-job)
-		- [4.1 Create Kafka Topic](#41-create-kafka-topic)
-		- [4.2 Create HBase Table](#42-create-hbase-table)
-		- [4.3 Copy Jar File to Container and Submit to Spark](#43-copy-jar-file-to-container-and-submit-to-spark)
-		- [4.4 Publish Data to Kafka](#44-publish-data-to-kafka)
-		- [4.5 Check Results in HBase](#45-check-results-in-hbase)
-	- [5. Live Debugging (Not working)](#5-live-debugging-not-working)
-	- [Docker Toolbox Setup (TODO)](#docker-toolbox-setup-todo)
-	- [VirtualBox Setup (TODO)](#virtualbox-setup-todo)
-	- [VMware Setup (TODO)](#vmware-setup-todo)
-	- [References](#references)
-	- [Appendix](#appendix)
-		- [Appendix A - Docker Image Info](#appendix-a-docker-image-info)
-		- [Appendix B - Known Issues](#appendix-b-known-issues)
-			- [1. HBase Master, HBase RegionServer, ZooKeeper, or Kafka Stop Working After Restart the Docker Container](#1-hbase-master-hbase-regionserver-zookeeper-or-kafka-stop-working-after-restart-the-docker-container)
-				- [Symptom](#symptom)
-				- [Cause](#cause)
-				- [Solution](#solution)
-				- [Workarounds](#workarounds)
-			- [2. Port mapping won't persist if a container restarts? (Need confirmation)](#2-port-mapping-wont-persist-if-a-container-restarts-need-confirmation)
-
-<!-- /TOC -->
 
 ## 1. JDK Setup
 
@@ -78,7 +24,7 @@ Select `Accept License Agreement`
 
 Click on the download link that matches your OS
 
-![JDK](images/0.1.PNG)
+![JDK](images/1.1.1.PNG)
 
 ### 1.2 Install JDK
 
@@ -162,71 +108,126 @@ tar -xzf idea-{version}.tar.gz
 ```
 * Run `idea.sh` from the bin subdirectory.
 
-### 2.2 Create IntelliJ Project
+### 2.2 Create or Import IntelliJ Project
 
-Launch the IntelliJ IDEA.
+Launch the IntelliJ IDEA. The welcome window will show up.
 
-Create a new project by selecting File > New > Project, or Create New Project on the IntelliJ IDEA Welcome window. Then select Maven, set JDK version and click Next.
+![Welcome](images/2.2.0.PNG)
 
-![New](images/1.1.PNG)
+> OPTIONAL: To use different Maven version, go to File > Settings > Build, Execution, Deployment > Build Tools > Maven. Change the Maven home directory.
+![Maven](images/2.2.1.PNG)
+
+#### Create New Maven Project
+
+Create a new project by selecting Create New Project on the welcome window, or File > New > Project if the IDE is open. Then select Maven, set JDK version and click Next.
+
+![New](images/2.2.3.PNG)
 
 Specify the GroupId, ArtifactId and Version, then click Next.
 
-![Id](images/1.2.PNG)
+![Id](images/2.2.4.PNG)
 
 Name the project and select location, then click Finish.
 
-![Name](images/1.3.PNG)
+![Name](images/2.2.5.PNG)
 
 IntelliJ should make a new project with a default directory structure.
 
-![Project](images/1.4.PNG)
+![Project](images/2.2.6.PNG)
 
-### 2.3 Change IntelliJ Settings
-
-> OPTIONAL: To use different Maven version, go to File > Settings > Build, Execution, Deployment > Build Tools > Maven. Change the Maven home directory.
-
-![Maven](images/2.1.PNG)
-
-Go to File > Settings > Build, Execution, Deployment > Build Tools > Maven > Importing. Verify that `import Maven projects automatically` is Checked.
-
-![Import](images/2.2.PNG)
-
+Change IntelliJ Settings
 Go to File > Project Structure > Project. Verify Project SDK and Project language level are set to Java version.
 
-![SDK](images/2.3.PNG)
+![SDK](images/2.2.7.PNG)
 
 Go to File > Project Structure > Modules. Verify Language level is set to Java version.
 
-![Level](images/2.4.PNG)
+![Level](images/2.2.8.PNG)
 
-### 2.4 Import Libraries
+#### Import Existing Maven Project
 
-Open the pom.xml file in the project directory.
+##### If the existing project is on Version Control
 
-For demo purpose, copy everything from https://github.com/ccbt87/sample-KafkaSparkHBase/blob/master/pom.xml to it.
+Clone the project to local directory first.
 
-![POM](images/3.1.PNG)
+Select corresponding version control by clicking on `Check out from Version Control` on the welcome window,
 
-### 2.5 Write Code
+![VC](images/2.2.9.PNG)
 
-Select the folder `src/main/java` in the project directory. Right-click on folder and select New > Java Class. Name the class: KafkaSparkHBase.java
+or go to File > New > Project from Version Control if the IDE is open.
 
-![Class](images/4.1.PNG)
+![VC](images/2.2.10.PNG)
 
-For demo purpose, copy everything from https://github.com/ccbt87/sample-KafkaSparkHBase/blob/master/src/main/java/KafkaSparkHBase.java to it.
+Take Git as example, provide Git URL and click Clone.
 
-> NOTE: If a different hostname was given to the container in the next section, change the hostname in the code accordingly.
+![Clone](images/2.2.11.PNG)
 
-![Code](images/4.2.PNG)
+##### If the existing project is in local directory
+
+Click on `Import Project` on the welcome window,
+
+![Import](images/2.2.12.PNG)
+
+or go to File > New > Project from Existing Sources.
+
+![Import](images/2.2.13.PNG)
+
+Select the existing project directory, click OK
+
+![Import](images/2.2.14.PNG)
+
+Select Import project from external model, choose Maven, click Next
+
+![Import](images/2.2.15.PNG)
+
+Click Next
+
+![Import](images/2.2.16.PNG)
+
+Click Next
+
+![Import](images/2.2.17.PNG)
+
+Click Next
+
+![Import](images/2.2.18.PNG)
+
+Click Finish
+
+![Import](images/2.2.19.PNG)
+
+### 2.3 Import Libraries
+
+Edit the pom.xml file in the project directory as needed.
+
+![POM](images/2.3.1.PNG)
+
+If the Auto-Import is not enabled, a floating window will show up on the bottom-right side. Click `Import Changes` to import libraries.
+
+![POM](images/2.3.2.PNG)
+
+> OPTIONAL: To enable Auto-Import, click `Enable Auto-Import` or go to File > Settings > Build, Execution, Deployment > Build Tools > Maven > Importing. Verify that `import Maven projects automatically` is Checked.
+![Import](images/2.2.2.PNG)
+
+### 2.4 Write Code
+
+Expand the folder `src/main/java` in the project directory.
+
+If you created a new project, right-click on folder and select New > Java Class. Name the class: KafkaSparkHBase.java
+
+![Class](images/2.4.1.PNG)
+
+If you imported the project from an existing source, double-click on the class name to open the class for editing
+
+![Code](images/2.4.2.PNG)
 
 > NOTE: Do not worry about the red lines for now.
 
-### 2.6 Create Fat Jar
+### 2.5 Create Fat Jar
 
 Go to Maven Projects > {Project Name} > Lifecycle. Double click on package. This will create a compiled jar under target in the project directory.
 
-![JAR](images/6.1.PNG)
+![JAR](images/2.5.1.PNG)
 
 > NOTE: The red lines should disappear after you close and reopen the IntelliJ IDEA.
 
@@ -254,21 +255,21 @@ Go to Maven Projects > {Project Name} > Lifecycle. Double click on package. This
 
 Right click on the Docker icon. Select Settings.
 
-![Settings](images/5.0.PNG)
+![Settings](images/3.2.1.PNG)
 
 Select Advanced tab, adjust the memory limit to 4 - 8 GB
 
-![Memory](images/5.1.PNG)
+![Memory](images/3.2.2.PNG)
 
 #### MacOS
 
 Click on the Docker icon in the menu bar. Select Preferences.
 
-![Settings](images/5.2.PNG)
+![Settings](images/3.2.3.PNG)
 
 Select Advanced tab, adjust the memory limit to 4 - 8 GB
 
-![Memory](images/5.3.PNG)
+![Memory](images/3.2.4.PNG)
 
 #### Linux
 
@@ -313,7 +314,7 @@ docker run --hostname aio --name aio -it ccbt87/aio
 
 After the docker run command finished, the console will be attached to the shell of the container as the `-it` option tells Docker to run the container in foreground mode.
 
-![Run](images/5.4.PNG)
+![Run](images/3.4.1.PNG)
 
 Use following docker command in the host console to open as many new container shell as you want.
 ```
@@ -329,7 +330,7 @@ In the container shell, create a topic
 /opt/kafka_2.11-1.1.1/bin/kafka-topics.sh --create --zookeeper aio:2181 --replication-factor 1 --partitions 1 --topic test-topic
 ```
 
-![Kafka](images/7.1.PNG)
+![Kafka](images/4.1.1.PNG)
 
 ### 4.2 Create HBase Table
 
@@ -340,23 +341,23 @@ echo "create 'test-table', 'word-count'" | /opt/hbase-2.0.0/bin/hbase shell
 
 > OPTIONAL: you can use the `init_hbase_table.sh` to create or drop the HBase table. Refer to Appendix A for the usage
 
-![HBase](images/7.2.PNG)
+![HBase](images/4.2.1.PNG)
 
 ### 4.3 Copy Jar File to Container and Submit to Spark
 
-In the host console, copy the jar file to the container
+In the host console, copy the jar file to the container.
 ```
 docker cp /path_to_jar/sample-KafkaSparkHBase-1.0-SNAPSHOT.jar aio:/root/
 ```
 
-In the container shell, use spark-submit to run the Spark job.
+In the container shell, use spark-submit to submit the Spark job, with necessary configurations. You may also place the configurations in a file and read it from the file using the `--properties-file` flag when submitting the job.
 ```
-/opt/spark-2.3.1-bin-hadoop2.7/bin/spark-submit --class KafkaSparkHBase /root/sample-KafkaSparkHBase-1.0-SNAPSHOT.jar
+/opt/spark-2.3.1-bin-hadoop2.7/bin/spark-submit --name "test-app" --master spark://aio:7077 --class KafkaSparkHBase /root/sample-KafkaSparkHBase-1.0-SNAPSHOT.jar
 ```
 
 Once you see the time elapses, the Spark job is running.
 
-![Spark](images/7.3.PNG)
+![Spark](images/4.3.1.PNG)
 
 ### 4.4 Publish Data to Kafka
 
@@ -367,11 +368,11 @@ In the container shell, use `kafka-console-producer.sh`
 
 Enter some words:
 
-![Kafka](images/7.4.PNG)
+![Kafka](images/4.4.1.PNG)
 
 In the container shell in which the Spark job is running, you should see the word counts:
 
-![Spark](images/7.4.2.PNG)
+![Spark](images/4.4.2.PNG)
 
 ### 4.5 Check Results in HBase
 
@@ -382,14 +383,37 @@ echo "scan 'test-table'" | /opt/hbase-2.0.0/bin/hbase shell
 
 You should see the word counts:
 
-![HBase](images/7.5.PNG)
+![HBase](images/4.5.1.PNG)
 
-## 5. Live Debugging (Not working)
+## 5. Live Debugging
 
-On the machine where you plan on submitting your Spark job, run this line from the terminal:
+In the IntelliJ, set breakpoints in your code. Then go to Run > Edit Configurations
+
+![Conf](images/5.1.1.PNG)
+
+Then click the + button at the upper-left and add a new remote configuration. Fill the host and port fields. In this case, use the host `localhost` and port `8086`.
+
+![Remote](images/5.1.2.PNG)
+
+In the container shell, submit the Spark job with the `--conf` flag to set `spark.driver.extraJavaOptions` to the same as the `Command line arguments for remote JVM` in the IntelliJ remote configuration window.
+
 ```
-export SPARK_JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8086
+/opt/spark-2.3.1-bin-hadoop2.7/bin/spark-submit --conf spark.driver.extraJavaOptions=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8086 --class KafkaSparkHBase /root/sample-KafkaSparkHBase-1.0-SNAPSHOT.jar
 ```
+
+Or write the configuration to a file and read it from the file using the `--properties-file` flag when submitting the job.
+
+```
+/opt/spark-2.3.1-bin-hadoop2.7/bin/spark-submit --properties-file spark.conf --class KafkaSparkHBase /root/sample-KafkaSparkHBase-1.0-SNAPSHOT.jar
+```
+
+Once you submitted the job, it will listen on the port 8086
+
+![Listen](images/5.1.3.PNG)
+
+Go back to IntelliJ and hit the `Debug` button immediately after submitting your Spark job, the `Console` will show the connection info, the `Debugger` will attach and Spark will stop at the breakpoints you set.
+
+![Console](images/5.1.4.PNG)
 
 ## Docker Toolbox Setup (TODO)
 
@@ -453,16 +477,18 @@ Scripts under `/root`:
 	```
 
 ### Appendix B - Known Issues
-#### 1. HBase Master, HBase RegionServer, ZooKeeper, or Kafka Stop Working After Restart the Docker Container
+#### 1. HBase Master, HBase RegionServer, ZooKeeper, Kafka, or Other Components Stop Working After the Docker Container or the Host Restarts
 
 ##### Symptom
 
 * The JVM Process `HMaster` disappeared
 * The JVM Process `Kafka` disappeared
+* The JVM Process `NiFi` and/or `RunNiFi` disappeared
 
 ##### Cause
 
-Time change cause ZooKeeper Session expiring
+* Time change cause ZooKeeper Session expiring
+* Unknown cause for NiFi
 
 ##### Solution
 
@@ -479,6 +505,4 @@ None
 ```
 docker run --hostname aio --name aio --rm -it -p 2181:2181 -p 4040:4040 -p 6667:6667 -p 7077:7077 -p 8080:8080 -p 8081:8081 -p 8086:8086 -p 9042:9042 -p 9090:9090 -p 16000:16000 -p 16010:16010 -p 16020:16020 -p 16030:16030 -p 18080:18080 ccbt87/aio
 ```
-> NOTE: With the `--rm` option Docker will remove the container when it exits. Make sure to save the data in the container if there is any.
-
-#### 2. Port mapping won't persist if a container restarts? (Need confirmation)
+> NOTE: With the `--rm` flag Docker will remove the container when it exits. Make sure to save the data in the container if there is any.
