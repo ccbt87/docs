@@ -8,7 +8,63 @@
 * Docker 18.06.1-ce
 
 ## Table of Content
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
+- [Spark Local Development Environment Setup with Java and Maven](#spark-local-development-environment-setup-with-java-and-maven)
+	- [Table of Content](#table-of-content)
+	- [1. JDK Setup](#1-jdk-setup)
+		- [1.1 Download JDK](#11-download-jdk)
+		- [1.2 Install JDK](#12-install-jdk)
+			- [Windows](#windows)
+			- [MacOS](#macos)
+			- [Linux](#linux)
+	- [2. IDE Setup](#2-ide-setup)
+		- [2.1 Download and Install IntelliJ IDEA](#21-download-and-install-intellij-idea)
+			- [Windows 10/8/7/Vista/2003/XP (incl.64-bit)](#windows-1087vista2003xp-incl64-bit)
+			- [MacOS 10.8.3 or higher](#macos-1083-or-higher)
+			- [Linux GNOME or KDE desktop](#linux-gnome-or-kde-desktop)
+		- [2.2 Create or Import IntelliJ Project](#22-create-or-import-intellij-project)
+			- [Create New Maven Project](#create-new-maven-project)
+			- [Import Existing Maven Project](#import-existing-maven-project)
+				- [If the existing project is on Version Control](#if-the-existing-project-is-on-version-control)
+				- [If the existing project is in local directory](#if-the-existing-project-is-in-local-directory)
+		- [2.3 Import Libraries](#23-import-libraries)
+		- [2.4 Write Code](#24-write-code)
+		- [2.5 Create Fat Jar](#25-create-fat-jar)
+	- [3. Docker Setup](#3-docker-setup)
+		- [3.1 Download and Install Docker](#31-download-and-install-docker)
+			- [Windows 10 64bit: Pro, Enterprise or Education (1607 Anniversary Update, Build 14393 or later)](#windows-10-64bit-pro-enterprise-or-education-1607-anniversary-update-build-14393-or-later)
+			- [MacOS El Capitan 10.11 and newer](#macos-el-capitan-1011-and-newer)
+			- [Linux (OS requirement varies)](#linux-os-requirement-varies)
+		- [3.2 Memory Configuration](#32-memory-configuration)
+			- [Windows](#windows)
+			- [MacOS](#macos)
+			- [Linux](#linux)
+		- [3.3 Pull Image from Docker Hub](#33-pull-image-from-docker-hub)
+		- [3.4 Run the Image to Create Docker Container](#34-run-the-image-to-create-docker-container)
+			- [Windows or Mac](#windows-or-mac)
+			- [Linux](#linux)
+	- [4. Run the Sample Spark Job](#4-run-the-sample-spark-job)
+		- [4.1 Create Kafka Topic](#41-create-kafka-topic)
+		- [4.2 Create HBase Table](#42-create-hbase-table)
+		- [4.3 Copy Jar File to Container and Submit to Spark](#43-copy-jar-file-to-container-and-submit-to-spark)
+		- [4.4 Publish Data to Kafka](#44-publish-data-to-kafka)
+		- [4.5 Check Results in HBase](#45-check-results-in-hbase)
+	- [5. Live Debugging](#5-live-debugging)
+	- [Docker Toolbox Setup (TODO)](#docker-toolbox-setup-todo)
+	- [VirtualBox Setup (TODO)](#virtualbox-setup-todo)
+	- [VMware Setup (TODO)](#vmware-setup-todo)
+	- [References](#references)
+	- [Appendix](#appendix)
+		- [Appendix A - Docker Image Info](#appendix-a-docker-image-info)
+		- [Appendix B - Known Issues](#appendix-b-known-issues)
+			- [1. HBase Master, HBase RegionServer, ZooKeeper, Kafka, or Other Components Stop Working After the Docker Container or the Host Restarts](#1-hbase-master-hbase-regionserver-zookeeper-kafka-or-other-components-stop-working-after-the-docker-container-or-the-host-restarts)
+				- [Symptom](#symptom)
+				- [Cause](#cause)
+				- [Solution](#solution)
+				- [Workarounds](#workarounds)
+
+<!-- /TOC -->
 
 ## 1. JDK Setup
 
@@ -168,7 +224,7 @@ Click on `Import Project` on the welcome window,
 
 ![Import](images/2.2.12.PNG)
 
-or go to File > New > Project from Existing Sources.
+or go to File > New > Project from Existing Sources if the IDE is open.
 
 ![Import](images/2.2.13.PNG)
 
