@@ -20,29 +20,29 @@
 			- [Linux](#linux)
 	- [2. IDE Setup](#2-ide-setup)
 		- [2.1 Download and Install IntelliJ IDEA](#21-download-and-install-intellij-idea)
-			- [Windows 10/8/7/Vista/2003/XP (incl.64-bit)](#windows-1087vista2003xp-incl64-bit)
-			- [MacOS 10.8.3 or higher](#macos-1083-or-higher)
-			- [Linux GNOME or KDE desktop](#linux-gnome-or-kde-desktop)
+			- [Windows](#windows)
+			- [MacOS](#macos)
+			- [Linux](#linux)
 		- [2.2 Create or Import IntelliJ Project](#22-create-or-import-intellij-project)
 			- [Create New Maven Project](#create-new-maven-project)
 			- [Import Existing Maven Project](#import-existing-maven-project)
-				- [If the existing project is on Version Control](#if-the-existing-project-is-on-version-control)
-				- [If the existing project is in local directory](#if-the-existing-project-is-in-local-directory)
+				- [If Project is on Version Control](#if-project-is-on-version-control)
+				- [If Project is in local directory](#if-project-is-in-local-directory)
 		- [2.3 Import Libraries](#23-import-libraries)
 		- [2.4 Write Code](#24-write-code)
 		- [2.5 Create Fat Jar](#25-create-fat-jar)
 	- [3. Docker Setup](#3-docker-setup)
 		- [3.1 Download and Install Docker](#31-download-and-install-docker)
-			- [Windows 10 64bit: Pro, Enterprise or Education (1607 Anniversary Update, Build 14393 or later)](#windows-10-64bit-pro-enterprise-or-education-1607-anniversary-update-build-14393-or-later)
-			- [MacOS El Capitan 10.11 and newer](#macos-el-capitan-1011-and-newer)
-			- [Linux (OS requirement varies)](#linux-os-requirement-varies)
+			- [Windows](#windows)
+			- [MacOS](#macos)
+			- [Linux](#linux)
 		- [3.2 Memory Configuration](#32-memory-configuration)
 			- [Windows](#windows)
 			- [MacOS](#macos)
 			- [Linux](#linux)
 		- [3.3 Pull Image from Docker Hub](#33-pull-image-from-docker-hub)
 		- [3.4 Run the Image to Create Docker Container](#34-run-the-image-to-create-docker-container)
-			- [Windows or Mac](#windows-or-mac)
+			- [Windows or MacOS](#windows-or-macos)
 			- [Linux](#linux)
 	- [4. Run the Sample Spark Job](#4-run-the-sample-spark-job)
 		- [4.1 Create Kafka Topic](#41-create-kafka-topic)
@@ -51,6 +51,10 @@
 		- [4.4 Publish Data to Kafka](#44-publish-data-to-kafka)
 		- [4.5 Check Results in HBase](#45-check-results-in-hbase)
 	- [5. Live Debugging](#5-live-debugging)
+	- [6. Clean Up](#6-clean-up)
+		- [6.1 Drop HBase Table](#61-drop-hbase-table)
+		- [6.2 Remove Docker Container and Image](#62-remove-docker-container-and-image)
+		- [6.3 Remove Intellij Project](#63-remove-intellij-project)
 	- [Docker Toolbox Setup (TODO)](#docker-toolbox-setup-todo)
 	- [VirtualBox Setup (TODO)](#virtualbox-setup-todo)
 	- [VMware Setup (TODO)](#vmware-setup-todo)
@@ -58,7 +62,7 @@
 	- [Appendix](#appendix)
 		- [Appendix A - Docker Image Info](#appendix-a-docker-image-info)
 		- [Appendix B - Known Issues](#appendix-b-known-issues)
-			- [1. HBase Master, HBase RegionServer, ZooKeeper, Kafka, or Other Components Stop Working After the Docker Container or the Host Restarts](#1-hbase-master-hbase-regionserver-zookeeper-kafka-or-other-components-stop-working-after-the-docker-container-or-the-host-restarts)
+			- [1. Components Stop Working After the Docker Container or the Host Restarts](#1-components-stop-working-after-the-docker-container-or-the-host-restarts)
 				- [Symptom](#symptom)
 				- [Cause](#cause)
 				- [Solution](#solution)
@@ -148,16 +152,19 @@ export PATH=$JAVA_HOME/bin:$PATH
 ### 2.1 Download and Install IntelliJ IDEA
 Select and download the installation package that matches your OS from the official website: https://www.jetbrains.com/idea/download
 
-#### Windows 10/8/7/Vista/2003/XP (incl.64-bit)
+#### Windows
+Windows 10/8/7/Vista/2003/XP (incl.64-bit)
 * Run the IDEA `idea-{version}.exe` file that starts the Installation Wizard.
 * Follow all steps suggested by the wizard.
 
-#### MacOS 10.8.3 or higher
+#### MacOS
+OS X 10.8.3 or higher
 * Download the `idea-{version}.dmg` macOS Disk Image file.
 * Mount it as another disk in your system.
 * Copy IntelliJ IDEA to your Applications folder.
 
-#### Linux GNOME or KDE desktop
+#### Linux
+GNOME or KDE desktop
 * Unpack the IDEA `idea-{version}.tar.gz` file using the following command:
 ```
 tar -xzf idea-{version}.tar.gz
@@ -202,9 +209,7 @@ Go to File > Project Structure > Modules. Verify Language level is set to Java v
 
 #### Import Existing Maven Project
 
-##### If the existing project is on Version Control
-
-Clone the project to local directory first.
+##### If Project is on Version Control
 
 Select corresponding version control by clicking on `Check out from Version Control` on the welcome window,
 
@@ -218,7 +223,7 @@ Take Git as example, provide Git URL and click Clone.
 
 ![Clone](images/2.2.11.PNG)
 
-##### If the existing project is in local directory
+##### If Project is in local directory
 
 Click on `Import Project` on the welcome window,
 
@@ -291,15 +296,18 @@ Go to Maven Projects > {Project Name} > Lifecycle. Double click on package. This
 
 ### 3.1 Download and Install Docker
 
-#### Windows 10 64bit: Pro, Enterprise or Education (1607 Anniversary Update, Build 14393 or later)
+#### Windows
+Windows 10 64bit: Pro, Enterprise or Education (1607 Anniversary Update, Build 14393 or later)
 * Log in and download the `Docker for Windows Installer.exe` at https://store.docker.com/editions/community/docker-ce-desktop-windows
 * Follow the instructions in https://docs.docker.com/docker-for-windows/install/ to install Docker for Windows
 
-#### MacOS El Capitan 10.11 and newer
+#### MacOS
+OS X El Capitan 10.11 and newer
 * Log in and download the `Docker.dmg` macOS Disk Image file at https://store.docker.com/editions/community/docker-ce-desktop-mac
 * Follow the instructions in https://docs.docker.com/docker-for-mac/install/ to install Docker for Mac
 
-#### Linux (OS requirement varies)
+#### Linux
+OS requirement varies
 * Select the corresponding Linux distribution in the `Linux` dropdown menu on the left side in the link https://docs.docker.com/install/,
 * Follow the instructions in the webpage to install Docker for Linux
 
@@ -343,7 +351,7 @@ docker pull ccbt87/aio
 
 Use docker run command to run the image. Specify the hostname and the name for the container as needed. If not specified, a short form of UUID will be used as the hostname, and a random name will be given to the container. For demo purpose, this tutorial use `aio` for both names.
 
-#### Windows or Mac
+#### Windows or MacOS
 
 Docker for Mac and Windows cannot route traffic to Linux containers. Use the following workaround:
 * To connect to a container from the Mac or Windows, run the image using either one of the following commands and then use localhost:{port} to access the service in the container.
@@ -471,6 +479,62 @@ Go back to IntelliJ and hit the `Debug` button immediately after submitting your
 
 ![Console](images/5.1.4.PNG)
 
+You can inspect the values of live variables.
+
+
+
+## 6. Clean Up
+
+### 6.1 Drop HBase Table
+
+In the container shell, run following command to disable and drop all of the HBase tables
+
+```
+echo -e "disable_all '.*'\ny\ndrop_all '.*'\ny" | /opt/hbase-2.0.0/bin/hbase shell
+```
+
+### 6.2 Remove Docker Container and Image
+
+Use `docker ps` to check the existence of any running container.
+
+```
+docker ps
+```
+
+Use `docker stop {container name}` to stop the running container.
+
+```
+docker stop aio
+```
+
+Use `docker ps -a` to check the existence of any container.
+
+```
+docker ps -a
+```
+
+Use `docker rm {container name}` to remove the stopped container.
+
+```
+docker rm aio
+```
+
+Use `docker images` to list the local images.
+
+```
+docker images
+```
+
+Use `docker rmi {image name}` to remove the local image.
+
+```
+docker rmi ccbt87/aio
+```
+
+### 6.3 Remove Intellij Project
+
+To remove the Intellij Project, simply delete the project directory on the disk.
+
 ## Docker Toolbox Setup (TODO)
 
 
@@ -533,13 +597,13 @@ Supply two arguments will first try to disable and drop the specified table name
 ```
 
 ### Appendix B - Known Issues
-#### 1. HBase Master, HBase RegionServer, ZooKeeper, Kafka, or Other Components Stop Working After the Docker Container or the Host Restarts
+#### 1. Components Stop Working After the Docker Container or the Host Restarts
 
 ##### Symptom
 
-* The JVM Process `HMaster` disappeared
-* The JVM Process `Kafka` disappeared
-* The JVM Process `NiFi` and/or `RunNiFi` disappeared
+* The JVM Process `HMaster` disappeared. HBase Master, HBase RegionServer, and ZooKeeper do not work.
+* The JVM Process `Kafka` disappeared. Kafka does not work.
+* The JVM Process `NiFi` and/or `RunNiFi` disappeared. NiFi does not work.
 
 ##### Cause
 
@@ -561,4 +625,4 @@ None
 ```
 docker run --hostname aio --name aio --rm -it -p 2181:2181 -p 4040:4040 -p 6667:6667 -p 7077:7077 -p 8080:8080 -p 8081:8081 -p 8086:8086 -p 9042:9042 -p 9090:9090 -p 16000:16000 -p 16010:16010 -p 16020:16020 -p 16030:16030 -p 18080:18080 ccbt87/aio
 ```
-> NOTE: With the `--rm` flag Docker will remove the container when it exits. Make sure to save the data in the container if there is any.
+> NOTE: With the `--rm` flag Docker will remove the container when it exits. Make sure to backup the data in the container if there is any.
