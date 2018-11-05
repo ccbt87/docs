@@ -290,7 +290,9 @@ Go to Maven Projects > {Project Name} > Lifecycle. Double click on package. This
 
 ![JAR](images/2.5.1.PNG)
 
-> NOTE: The red lines should disappear after you close and reopen the IntelliJ IDEA.
+> NOTE: The red lines should disappear after you close and reopen the IntelliJ IDEA. If not, go to Maven Projects and try the the Reimport button:
+
+![Reimport](images/2.5.2.PNG)
 
 ## 3. Docker Setup
 
@@ -475,13 +477,13 @@ Once you submitted the job, it will listen on the port 8086
 
 ![Listen](images/5.1.3.PNG)
 
-Go back to IntelliJ and hit the `Debug` button immediately after submitting your Spark job, the `Console` will show the connection info, the `Debugger` will attach and Spark will stop at the breakpoints you set.
+Go back to IntelliJ and hit the `Debug` button immediately after submitting your Spark job, the `Console` tab will show the connection info, the `Debugger` will attach and Spark will stop at the breakpoints you set.
 
 ![Console](images/5.1.4.PNG)
 
-You can inspect the values of live variables.
+You can inspect the values of live variables in the `Debugger` tab.
 
-
+![Debugger](images/5.1.5.PNG)
 
 ## 6. Clean Up
 
