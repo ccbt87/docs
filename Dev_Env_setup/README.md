@@ -492,7 +492,7 @@ You can inspect the values of live variables in the `Debugger` tab.
 In the container shell, run following command to disable and drop all of the HBase tables
 
 ```
-echo -e "disable_all '.*'\ny\ndrop_all '.*'\ny" | /opt/hbase-2.0.0/bin/hbase shell
+echo -e "disable_all '.*'\ny\ndrop_all '.*'\ny" | /opt/hbase-2.0.0/bin/hbase shell -n
 ```
 
 ### 6.2 Remove Docker Container and Image
