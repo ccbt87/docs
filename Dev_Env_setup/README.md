@@ -41,15 +41,15 @@
 			- [MacOS](#macos)
 			- [Linux](#linux)
 		- [3.3 Pull Image from Docker Hub](#33-pull-image-from-docker-hub)
-		- [3.4 Run the Image to Create Docker Container](#34-run-the-image-to-create-docker-container)
+		- [3.4 Run the Image](#34-run-the-image)
 			- [Windows or MacOS](#windows-or-macos)
 			- [Linux](#linux)
-	- [4. Run the Sample Spark Job](#4-run-the-sample-spark-job)
+	- [4. Run the Spark Job](#4-run-the-spark-job)
 		- [4.1 Create Kafka Topic](#41-create-kafka-topic)
 		- [4.2 Create HBase Table](#42-create-hbase-table)
-		- [4.3 Copy Jar File to Container and Submit to Spark](#43-copy-jar-file-to-container-and-submit-to-spark)
+		- [4.3 Copy Jar to Container and Submit to Spark](#43-copy-jar-to-container-and-submit-to-spark)
 		- [4.4 Publish Data to Kafka](#44-publish-data-to-kafka)
-		- [4.5 Check Results in HBase](#45-check-results-in-hbase)
+		- [4.5 Check the Result in HBase](#45-check-the-result-in-hbase)
 	- [5. Live Debugging](#5-live-debugging)
 	- [6. Clean Up](#6-clean-up)
 		- [6.1 Drop HBase Table](#61-drop-hbase-table)
@@ -347,7 +347,7 @@ docker pull ccbt87/aio
 ```
 > Refer to Appendix A for the details about this image.
 
-### 3.4 Run the Image to Create Docker Container
+### 3.4 Run the Image
 
 Use docker run command to run the image. Specify the hostname and the name for the container as needed. If not specified, a short form of UUID will be used as the hostname, and a random name will be given to the container. For demo purpose, this tutorial use `aio` for both names.
 
@@ -385,7 +385,7 @@ Use following docker command in the host console to open as many new container s
 docker exec -it aio /bin/bash
 ```
 
-## 4. Run the Sample Spark Job
+## 4. Run the Spark Job
 
 ### 4.1 Create Kafka Topic
 
@@ -407,7 +407,7 @@ echo "create 'test-table', 'word-count'" | /opt/hbase-2.0.0/bin/hbase shell
 
 ![HBase](images/4.2.1.PNG)
 
-### 4.3 Copy Jar File to Container and Submit to Spark
+### 4.3 Copy Jar to Container and Submit to Spark
 
 In the host console, copy the jar file to the container.
 ```
@@ -430,7 +430,7 @@ In the container shell, use `kafka-console-producer.sh`
 /opt/kafka_2.11-1.1.1/bin/kafka-console-producer.sh --broker-list aio:6667 --topic test-topic
 ```
 
-Enter some words:
+Enter some messages to Kafka:
 
 ![Kafka](images/4.4.1.PNG)
 
@@ -438,7 +438,7 @@ In the container shell in which the Spark job is running, you should see the wor
 
 ![Spark](images/4.4.2.PNG)
 
-### 4.5 Check Results in HBase
+### 4.5 Check the Result in HBase
 
 In the container shell, send scan command to HBase shell
 ```
@@ -533,7 +533,7 @@ docker rmi ccbt87/aio
 
 ### 6.3 Remove Intellij Project
 
-To remove the Intellij Project, simply delete the project directory on the disk.
+To remove the Intellij project, simply delete the project directory on the disk.
 
 ## Docker Toolbox Setup (TODO)
 
