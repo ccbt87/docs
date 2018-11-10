@@ -8,67 +8,7 @@
 * Docker 18.06.1-ce
 
 ## Table of Content
-<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-- [Spark Local Development Environment Setup with Java and Maven](#spark-local-development-environment-setup-with-java-and-maven)
-	- [Table of Content](#table-of-content)
-	- [1. JDK Setup](#1-jdk-setup)
-		- [1.1 Download JDK](#11-download-jdk)
-		- [1.2 Install JDK](#12-install-jdk)
-			- [Windows](#windows)
-			- [MacOS](#macos)
-			- [Linux](#linux)
-	- [2. IDE Setup](#2-ide-setup)
-		- [2.1 Download and Install IntelliJ IDEA](#21-download-and-install-intellij-idea)
-			- [Windows](#windows)
-			- [MacOS](#macos)
-			- [Linux](#linux)
-		- [2.2 Create or Import IntelliJ Project](#22-create-or-import-intellij-project)
-			- [Create New Maven Project](#create-new-maven-project)
-			- [Import Existing Maven Project](#import-existing-maven-project)
-				- [If Project is on Version Control](#if-project-is-on-version-control)
-				- [If Project is in local directory](#if-project-is-in-local-directory)
-		- [2.3 Import Libraries](#23-import-libraries)
-		- [2.4 Write Code](#24-write-code)
-		- [2.5 Create Fat Jar](#25-create-fat-jar)
-	- [3. Docker Setup](#3-docker-setup)
-		- [3.1 Download and Install Docker](#31-download-and-install-docker)
-			- [Windows](#windows)
-			- [MacOS](#macos)
-			- [Linux](#linux)
-		- [3.2 Memory Configuration](#32-memory-configuration)
-			- [Windows](#windows)
-			- [MacOS](#macos)
-			- [Linux](#linux)
-		- [3.3 Pull Image from Docker Hub](#33-pull-image-from-docker-hub)
-		- [3.4 Run the Image](#34-run-the-image)
-			- [Windows or MacOS](#windows-or-macos)
-			- [Linux](#linux)
-	- [4. Run the Spark Job](#4-run-the-spark-job)
-		- [4.1 Create Kafka Topic](#41-create-kafka-topic)
-		- [4.2 Create HBase Table](#42-create-hbase-table)
-		- [4.3 Copy Jar to Container and Submit to Spark](#43-copy-jar-to-container-and-submit-to-spark)
-		- [4.4 Publish Data to Kafka](#44-publish-data-to-kafka)
-		- [4.5 Check the Result in HBase](#45-check-the-result-in-hbase)
-	- [5. Live Debugging](#5-live-debugging)
-	- [6. Clean Up](#6-clean-up)
-		- [6.1 Drop HBase Table](#61-drop-hbase-table)
-		- [6.2 Remove Docker Container and Image](#62-remove-docker-container-and-image)
-		- [6.3 Remove Intellij Project](#63-remove-intellij-project)
-	- [Docker Toolbox Setup (TODO)](#docker-toolbox-setup-todo)
-	- [VirtualBox Setup (TODO)](#virtualbox-setup-todo)
-	- [VMware Setup (TODO)](#vmware-setup-todo)
-	- [References](#references)
-	- [Appendix](#appendix)
-		- [Appendix A - Docker Image Info](#appendix-a-docker-image-info)
-		- [Appendix B - Known Issues](#appendix-b-known-issues)
-			- [1. Components Stop Working After the Docker Container or the Host Restarts](#1-components-stop-working-after-the-docker-container-or-the-host-restarts)
-				- [Symptom](#symptom)
-				- [Cause](#cause)
-				- [Solution](#solution)
-				- [Workarounds](#workarounds)
-
-<!-- /TOC -->
 
 ## 1. JDK Setup
 
@@ -359,9 +299,9 @@ Docker for Mac and Windows cannot route traffic to Linux containers. Use the fol
 * To connect to a container from the Mac or Windows, run the image using either one of the following commands and then use localhost:{port} to access the service in the container.
   * Use `-p` or `--publish` to publish ports on the container to specific ports on the host.
   ```
-  docker run --hostname aio --name aio -it -p 2181:2181 -p 4040:4040 -p 6667:6667 -p 7077:7077 -p 8080:8080 -p 8081:8081 -p 8086:8086 -p 9042:9042 -p 9090:9090 -p 16000:16000 -p 16010:16010 -p 16020:16020 -p 16030:16030 -p 18080:18080 ccbt87/aio
+	docker run --hostname aio --name aio -it -p 2181:2181 -p 4040:4040 -p 6667:6667 -p 7077:7077 -p 8080:8080 -p 8081:8081 -p 9042:9042 -p 9090:9090 -p 16000:16000 -p 16010:16010 -p 16020:16020 -p 16030:16030 -p 18080:18080 -p 40001-40011:40001-40011 ccbt87/aio
   ```
-  * Use `-P` to exposes pre-defined ports on the container to random ports on the host. (Ports 2181 4040 6667 7077 8080 8081 8086 9042 9090 16000 16010 16020 16030 18080 were defined in the Dockerfile when building this Docker image)
+  * Use `-P` to exposes pre-defined ports on the container to random ports on the host. (Ports 2181 4040 6667 7077 8080 8081 9042 9090 16000 16010 16020 16030 18080 and 40001 to 40011 were defined in the Dockerfile when building this Docker image)
   ```
   docker run --hostname aio --name aio -it -P ccbt87/aio
   ```
@@ -457,14 +397,14 @@ In the IntelliJ, set breakpoints in your code. Then go to Run > Edit Configurati
 
 ![Conf](images/5.1.1.PNG)
 
-Then click the + button at the upper-left and add a new remote configuration. Fill the host and port fields. In this case, use the host `localhost` and port `8086`.
+Then click the + button at the upper-left and add a new remote configuration. Fill the host and port fields. For example, use the host `localhost` and port `40001`.
 
 ![Remote](images/5.1.2.PNG)
 
 In the container shell, submit the Spark job with the `--conf` flag to set `spark.driver.extraJavaOptions` to the same as the `Command line arguments for remote JVM` in the IntelliJ remote configuration window.
 
 ```
-/opt/spark-2.3.1-bin-hadoop2.7/bin/spark-submit --conf spark.driver.extraJavaOptions=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8086 --class KafkaSparkHBase /root/sample-KafkaSparkHBase-1.0-SNAPSHOT.jar
+/opt/spark-2.3.1-bin-hadoop2.7/bin/spark-submit --conf spark.driver.extraJavaOptions=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=40001 --class KafkaSparkHBase /root/sample-KafkaSparkHBase-1.0-SNAPSHOT.jar
 ```
 
 Or write the configuration to a file and read it from the file using the `--properties-file` flag when submitting the job.
@@ -481,13 +421,91 @@ Go back to IntelliJ and hit the `Debug` button immediately after submitting your
 
 ![Console](images/5.1.4.PNG)
 
-You can inspect the values of live variables in the `Debugger` tab.
+Under the `Debugger` tab, you can inspect the values of live variables within the Spark job.
 
 ![Debugger](images/5.1.5.PNG)
 
-## 6. Clean Up
+## 6. Profiling JVM
 
-### 6.1 Drop HBase Table
+### Configuration
+
+Java Management Extensions (JMX) API is used to expose the Java applications for remote management (profiling)
+
+#### HBase, Kafka, NiFi, and Cassandra
+
+Following properties will be applied to HBase, Kafka, NiFi, and Cassandra when running the Docker image .
+
+```
+-XX:+UnlockCommercialFeatures \
+-XX:+FlightRecorder \
+-Dcom.sun.management.jmxremote=true \
+-Dcom.sun.management.jmxremote.authenticate=false \
+-Dcom.sun.management.jmxremote.ssl=false \
+-Dcom.sun.management.jmxremote.port={port} \
+-Dcom.sun.management.jmxremote.rmi.port={port} \
+-Dcom.sun.management.jmxremote.local.only=false \
+-Djava.rmi.server.hostname=localhost
+```
+
+Use following ports for JMX connections
+
+| Component | Port |
+| --- | --- |
+| NiFi | 40004 |
+| Kafka | 40005 |
+| Hbase Master | 40006 |
+| Cassandra | 40011 |
+
+> NOTE: In standalone mode HBase runs all the daemons including HBase Master, HBase RegionServer, and the ZooKeeper within a single JVM. JMX connection can only be set up for HBase Master OR HBase RegionServer in this case.
+
+#### Spark Driver and Executor
+
+For Spark Driver and Executor, the same properties need to be included in the Spark Configuration when submitting the spark job.
+
+For example, include the properties for both of the `spark.driver.extraJavaOptions` and `spark.executor.extraJavaOptions` in the `spark.conf` file:
+
+![SparkConf](images/6.1.1.PNG)
+
+In the container shell, read it from the file using the `--properties-file` flag when submitting the job.
+
+```
+/opt/spark-2.3.1-bin-hadoop2.7/bin/spark-submit --properties-file spark.conf --class KafkaSparkHBase /root/sample-KafkaSparkHBase-1.0-SNAPSHOT.jar
+```
+
+Once submitted, JMX connection is available on the port that is specified in the `spark.conf` file.
+
+### Java VisualVM
+
+
+Enter `jvisualvm` in the host console to launch the Java VisualVM.
+
+Once the Java VisualVM is open, click on the `Add JMX Connection` icon, type in hostname and port, and click `OK`
+
+![ViualVM](images/6.2.1.PNG)
+
+The connection will be added in the Applications tab on the left side. Double click on the connection, the JVM monitoring information will show up on the right side.
+
+![ViualVM](images/6.2.2.PNG)
+
+> NOTE: the Profiler tab is not available for remote applications, use the Sampler tab as an alternative.
+
+### Java Mission Control
+
+Enter `jmc` in the host console to launch the Java Mission Control.
+
+Once the Java Mission Control is open, click on the `Create a new custom JVM connection` icon, type in hostname and port, and click on `Test connection` to test the connection. If the `Status` shows `OK`, click `Finish`
+
+![MC](images/6.3.1.PNG)
+
+The connection will be added in the JVM Browser tab on the left side. Double click on the `MBean Server` under the connection, the JVM monitoring information will show up on the right side.
+
+![MC](images/6.3.2.PNG)
+
+Use the `Flight Recorder` for profiling.
+
+## 7. Clean Up
+
+### 7.1 Drop HBase Table
 
 In the container shell, run following command to disable and drop all of the HBase tables
 
@@ -495,7 +513,7 @@ In the container shell, run following command to disable and drop all of the HBa
 echo -e "disable_all '.*'\ny\ndrop_all '.*'\ny" | /opt/hbase-2.0.0/bin/hbase shell -n
 ```
 
-### 6.2 Remove Docker Container and Image
+### 7.2 Remove Docker Container and Image
 
 Use `docker ps` to check the existence of any running container.
 
@@ -503,7 +521,7 @@ Use `docker ps` to check the existence of any running container.
 docker ps
 ```
 
-Use `docker stop {container name}` to stop the running container.
+Use `docker stop {container name or id}` to stop the running container.
 
 ```
 docker stop aio
@@ -515,7 +533,7 @@ Use `docker ps -a` to check the existence of any container.
 docker ps -a
 ```
 
-Use `docker rm {container name}` to remove the stopped container.
+Use `docker rm {container name or id}` to remove the stopped container.
 
 ```
 docker rm aio
@@ -527,13 +545,13 @@ Use `docker images` to list the local images.
 docker images
 ```
 
-Use `docker rmi {image name}` to remove the local image.
+Use `docker rmi {image name or id}` to remove the local image.
 
 ```
 docker rmi ccbt87/aio
 ```
 
-### 6.3 Remove Intellij Project
+### 7.3 Remove Intellij Project
 
 To remove the Intellij project, simply delete the project directory on the disk.
 
@@ -555,6 +573,16 @@ https://hortonworks.com/tutorial/setting-up-a-spark-development-environment-with
 https://github.com/ccbt87/sample-KafkaSparkHBase
 
 https://docs.docker.com/docker-for-mac/networking/
+
+https://spark.apache.org/docs/latest/monitoring.html
+
+https://community.hortonworks.com/content/supportkb/150580/how-to-connect-jconsole-to-spark-driver-and-execut.html
+
+https://community.hortonworks.com/questions/180008/enabling-jmx-for-nifi.html
+
+https://docs.datastax.com/en/cassandra/3.0/cassandra/configuration/secureJmxAuthentication.html
+
+https://hbase.apache.org/metrics.html
 
 ## Appendix
 ### Appendix A - Docker Image Info
@@ -585,7 +613,7 @@ Scripts under `/root`:
 
 `init-hbase-table.sh` is used for create or drop HBase table:
 
-Supply no argument will first try to disable and drop the default table name `test-table`, and then create the same table name with the default column family `word-count`
+Supply no argument will first try to disable and drop the default table name `tenantxsy_data`, and then create the same table name with three column families `e`, `U`, and `S`
 ```
 ./init-hbase-table.sh
 ```
@@ -593,9 +621,9 @@ Supply one argument will try to disable and drop the specified table name
 ```
 ./init-hbase-table.sh table_name
 ```
-Supply two arguments will first try to disable and drop the specified table name, and then create the same table name with the column family
+Supply two arguments will first try to disable and drop the specified table name, and then create the same table name with the column family name(s)
 ```
-./init-hbase-table.sh table_name columnfamily_name
+./init-hbase-table.sh table_name columnfamily_name [columnfamily_name2 columnfamily_name3]
 ```
 
 ### Appendix B - Known Issues
@@ -625,6 +653,6 @@ None
 
 2. Add `--rm` option when running the Docker image
 ```
-docker run --hostname aio --name aio --rm -it -p 2181:2181 -p 4040:4040 -p 6667:6667 -p 7077:7077 -p 8080:8080 -p 8081:8081 -p 8086:8086 -p 9042:9042 -p 9090:9090 -p 16000:16000 -p 16010:16010 -p 16020:16020 -p 16030:16030 -p 18080:18080 ccbt87/aio
+docker run --hostname aio --name aio --rm -it -p 2181:2181 -p 4040:4040 -p 6667:6667 -p 7077:7077 -p 8080:8080 -p 8081:8081 -p 9042:9042 -p 9090:9090 -p 16000:16000 -p 16010:16010 -p 16020:16020 -p 16030:16030 -p 18080:18080 -p 40001-40011:40001-40011 ccbt87/aio
 ```
 > NOTE: With the `--rm` flag Docker will remove the container when it exits. Make sure to backup the data in the container if there is any.

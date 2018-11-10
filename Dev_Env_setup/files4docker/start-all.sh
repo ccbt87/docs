@@ -18,15 +18,15 @@ echo "> Kafka starting"
 /opt/kafka_2.11-1.1.1/bin/kafka-server-start.sh -daemon /opt/kafka_2.11-1.1.1/config/server.properties
 echo "> Kafka started"
 
+# Start NiFi
+echo "> NiFi starting"
+/opt/nifi-1.7.0/bin/nifi.sh start
+echo "> NiFi started"
+
 # Start Spark
 echo "> Spark starting"
 /opt/spark-2.3.1-bin-hadoop2.7/sbin/start-master.sh
 /opt/spark-2.3.1-bin-hadoop2.7/sbin/start-slave.sh spark://$(hostname):7077
 echo "> Spark started"
-
-# Start NiFi
-echo "> NiFi starting"
-/opt/nifi-1.7.0/bin/nifi.sh start
-echo "> NiFi started"
 
 echo ">>>>>>>>>> Script end <<<<<<<<<<"
