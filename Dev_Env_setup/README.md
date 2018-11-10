@@ -8,7 +8,73 @@
 * Docker 18.06.1-ce
 
 ## Table of Content
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
+- [Spark Local Development Environment Setup with Java and Maven](#spark-local-development-environment-setup-with-java-and-maven)
+	- [Table of Content](#table-of-content)
+	- [1. JDK Setup](#1-jdk-setup)
+		- [1.1 Download JDK](#11-download-jdk)
+		- [1.2 Install JDK](#12-install-jdk)
+			- [Windows](#windows)
+			- [MacOS](#macos)
+			- [Linux](#linux)
+	- [2. IDE Setup](#2-ide-setup)
+		- [2.1 Download and Install IntelliJ IDEA](#21-download-and-install-intellij-idea)
+			- [Windows](#windows)
+			- [MacOS](#macos)
+			- [Linux](#linux)
+		- [2.2 Create or Import IntelliJ Project](#22-create-or-import-intellij-project)
+			- [Create New Maven Project](#create-new-maven-project)
+			- [Import Existing Maven Project](#import-existing-maven-project)
+				- [If Project is on Version Control](#if-project-is-on-version-control)
+				- [If Project is in local directory](#if-project-is-in-local-directory)
+		- [2.3 Import Libraries](#23-import-libraries)
+		- [2.4 Write Code](#24-write-code)
+		- [2.5 Create Fat Jar](#25-create-fat-jar)
+	- [3. Docker Setup](#3-docker-setup)
+		- [3.1 Download and Install Docker](#31-download-and-install-docker)
+			- [Windows](#windows)
+			- [MacOS](#macos)
+			- [Linux](#linux)
+		- [3.2 Memory Configuration](#32-memory-configuration)
+			- [Windows](#windows)
+			- [MacOS](#macos)
+			- [Linux](#linux)
+		- [3.3 Pull Image from Docker Hub](#33-pull-image-from-docker-hub)
+		- [3.4 Run the Image](#34-run-the-image)
+			- [Windows or MacOS](#windows-or-macos)
+			- [Linux](#linux)
+	- [4. Run the Spark Job](#4-run-the-spark-job)
+		- [4.1 Create Kafka Topic](#41-create-kafka-topic)
+		- [4.2 Create HBase Table](#42-create-hbase-table)
+		- [4.3 Copy Jar to Container and Submit to Spark](#43-copy-jar-to-container-and-submit-to-spark)
+		- [4.4 Publish Data to Kafka](#44-publish-data-to-kafka)
+		- [4.5 Check the Result in HBase](#45-check-the-result-in-hbase)
+	- [5. Live Debugging](#5-live-debugging)
+	- [6. Profiling JVM](#6-profiling-jvm)
+		- [Configuration](#configuration)
+			- [HBase, Kafka, NiFi, and Cassandra](#hbase-kafka-nifi-and-cassandra)
+			- [Spark Driver and Executor](#spark-driver-and-executor)
+		- [Java VisualVM](#java-visualvm)
+		- [Java Mission Control](#java-mission-control)
+	- [7. Clean Up](#7-clean-up)
+		- [7.1 Drop HBase Table](#71-drop-hbase-table)
+		- [7.2 Remove Docker Container and Image](#72-remove-docker-container-and-image)
+		- [7.3 Remove Intellij Project](#73-remove-intellij-project)
+	- [Docker Toolbox Setup (TODO)](#docker-toolbox-setup-todo)
+	- [VirtualBox Setup (TODO)](#virtualbox-setup-todo)
+	- [VMware Setup (TODO)](#vmware-setup-todo)
+	- [References](#references)
+	- [Appendix](#appendix)
+		- [Appendix A - Docker Image Info](#appendix-a-docker-image-info)
+		- [Appendix B - Known Issues](#appendix-b-known-issues)
+			- [1. Components Stop Working After the Docker Container or the Host Restarts](#1-components-stop-working-after-the-docker-container-or-the-host-restarts)
+				- [Symptom](#symptom)
+				- [Cause](#cause)
+				- [Solution](#solution)
+				- [Workarounds](#workarounds)
+
+<!-- /TOC -->
 
 ## 1. JDK Setup
 
@@ -433,7 +499,7 @@ Java Management Extensions (JMX) API is used to expose the Java applications for
 
 #### HBase, Kafka, NiFi, and Cassandra
 
-Following properties will be applied to HBase, Kafka, NiFi, and Cassandra when running the Docker image .
+Following properties were included in the `config-all.sh` script in the Docker images, and will be applied to HBase, Kafka, NiFi, and Cassandra when running the Docker image. No further configuration needed.
 
 ```
 -XX:+UnlockCommercialFeatures \
