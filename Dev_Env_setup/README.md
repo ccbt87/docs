@@ -479,7 +479,7 @@ Or write the configuration to a file and read it from the file using the `--prop
 /opt/spark-2.3.1-bin-hadoop2.7/bin/spark-submit --properties-file spark.conf --class KafkaSparkHBase /root/sample-KafkaSparkHBase-1.0-SNAPSHOT.jar
 ```
 
-Once you submitted the job, it will listen on the port 8086
+Once you submitted the job, it will listen on the port 40001
 
 ![Listen](images/5.1.3.PNG)
 
