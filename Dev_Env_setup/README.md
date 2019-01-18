@@ -666,7 +666,7 @@ Following components were included in the latest Docker image `ccbt87/aio`:
 | Zookeeper* | 3.4.10 | | Client Port 2181 |
 | Cassandra | 3.11.3 | /opt/apache-cassandra-3.11.3 | Client Port 9042 |
 | NiFi | 1.7.0 | /opt/nifi-1.7.0 | Web UI 9090 |
-| Phoenix Query Server | 5.0.0 | apache-phoenix-5.0.0-HBase-2.0-bin | Listener 8765 |
+| Phoenix Query Server | 5.0.0 | /opt/apache-phoenix-5.0.0-HBase-2.0-bin | Listener 8765 |
 
 This Docker image uses the Oracle JDK version: 1.8.0_112 (JAVA_HOME=/opt/jdk1.8.0_112)
 
