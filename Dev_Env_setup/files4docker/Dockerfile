@@ -15,12 +15,12 @@ ADD nifi-1.7.0-bin.tar.gz /opt
 ADD jdk-8u112-linux-x64.tar.gz /opt
 ENV JAVA_HOME /opt/jdk1.8.0_112
 ENV PATH "$JAVA_HOME/bin:$PATH"
-RUN alternatives --install /usr/bin/java java /opt/jdk1.8.0_112/bin/java 2
-RUN alternatives --install /usr/bin/jar jar /opt/jdk1.8.0_112/bin/jar 2
-RUN alternatives --install /usr/bin/javac javac /opt/jdk1.8.0_112/bin/javac 2
-RUN alternatives --set java /opt/jdk1.8.0_112/bin/java
-RUN alternatives --set jar /opt/jdk1.8.0_112/bin/jar
-RUN alternatives --set javac /opt/jdk1.8.0_112/bin/javac
+
+ADD hadoop-3.1.1.tar.gz /opt
+
+RUN yum install -y snappy
+
+ADD apache-phoenix-5.0.0-HBase-2.0-bin.tar.gz /opt
 
 # copy scripts for staring and stopping cassandra, kafka, and spark
 COPY stop-all.sh /root
@@ -29,7 +29,7 @@ COPY config-all.sh /root
 COPY init_hbase_table.sh /root
 
 # expose ports
-EXPOSE 2181 4040 6667 7077 8080 8081 9042 9090 16000 16010 16020 16030 18080 40001-40011
+EXPOSE 2181 4040 6667 7077 8080 8081 8765 9042 9090 16000 16010 16020 16030 18080 40001-40011
 
 WORKDIR /root
 

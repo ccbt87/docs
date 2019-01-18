@@ -17,6 +17,11 @@ echo "> NiFi stopping"
 /opt/nifi-1.7.0/bin/nifi.sh stop
 echo "> NiFi stopped"
 
+# Stop Phoenix Query Server
+echo "> Phoenix Query Server stopping"
+/opt/apache-phoenix-5.0.0-HBase-2.0-bin/bin/queryserver.py stop
+echo "> Phoenix Query Server stopped"
+
 # Stop HBase with Zookeeper
 echo "> HBase stopping"
 /opt/hbase-2.0.0/bin/stop-hbase.sh

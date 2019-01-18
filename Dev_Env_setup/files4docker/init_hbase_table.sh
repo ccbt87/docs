@@ -1,5 +1,5 @@
 #!/bin/bash
-table=tenantxsy_data
+table=tenantid_data
 cfstr=", 'e', 'U', 'S'"
 
 if [ $# -eq 1 ]

@@ -11,11 +11,16 @@ echo "> HBase starting"
 /opt/hbase-2.0.0/bin/start-hbase.sh
 echo "> HBase started"
 
+# Start Phoenix Query Server
+echo "> Phoenix Query Server starting"
+/opt/apache-phoenix-5.0.0-HBase-2.0-bin/bin/queryserver.py start
+echo "> Phoenix Query Server started"
+
 # HBase running in standalone mode has the ZooKeeper server running already, there is no need to launch another ZooKeeper
 #/opt/kafka_2.11-1.1.1/bin/zookeeper-server-start.sh -daemon /opt/kafka_2.11-1.1.1/config/zookeeper.properties
 # Start Kafka
 echo "> Kafka starting"
-/opt/kafka_2.11-1.1.1/bin/kafka-server-start.sh -daemon /opt/kafka_2.11-1.1.1/config/server.properties
+JMX_PORT=40005 /opt/kafka_2.11-1.1.1/bin/kafka-server-start.sh -daemon /opt/kafka_2.11-1.1.1/config/server.properties
 echo "> Kafka started"
 
 # Start NiFi

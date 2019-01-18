@@ -1,6 +1,17 @@
 #!/bin/bash
 hostname=$(hostname)
 
+# Java
+alternatives --install /usr/bin/java java /opt/jdk1.8.0_112/bin/java 2
+alternatives --install /usr/bin/jar jar /opt/jdk1.8.0_112/bin/jar 2
+alternatives --install /usr/bin/javac javac /opt/jdk1.8.0_112/bin/javac 2
+alternatives --set java /opt/jdk1.8.0_112/bin/java
+alternatives --set jar /opt/jdk1.8.0_112/bin/jar
+alternatives --set javac /opt/jdk1.8.0_112/bin/javac
+
+# Phoenix
+cp /opt/apache-phoenix-5.0.0-HBase-2.0-bin/phoenix-5.0.0-HBase-2.0-server.jar /opt/hbase-2.0.0/lib/
+
 # NiFi change 8080 or any other number to 9090
 sed -i 's/^nifi.web.http.port=[0-9]\{1,5\}$/nifi.web.http.port=9090/' /opt/nifi-1.7.0/conf/nifi.properties
 cat >> /opt/nifi-1.7.0/conf/bootstrap.conf << EOF
@@ -18,11 +29,15 @@ EOF
 # Kafka change 9092 or any other number to 6667
 sed -i "s%^#\?listeners=PLAINTEXT://.*:[0-9]\{1,5\}$%listeners=PLAINTEXT://$hostname:6667%" /opt/kafka_2.11-1.1.1/config/server.properties
 
-cp /opt/kafka_2.11-1.1.1/bin/kafka-run-class.sh /opt/kafka_2.11-1.1.1/bin/kafka-run-class.sh.backup
-sed -i '/# JMX settings/a KAFKA_JMX_OPTS="-XX:+UnlockCommercialFeatures -XX:+FlightRecorder -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.port=40005 -Dcom.sun.management.jmxremote.rmi.port=40005 -Dcom.sun.management.jmxremote.local.only=false -Djava.rmi.server.hostname=localhost"' /opt/kafka_2.11-1.1.1/bin/kafka-run-class.sh
-sed -i '/# JMX port to use/a unset JMX_PORT' /opt/kafka_2.11-1.1.1/bin/kafka-run-class.sh
+if [ ! -f /opt/kafka_2.11-1.1.1/bin/kafka-run-class.sh.backup ]
+then
+    cp /opt/kafka_2.11-1.1.1/bin/kafka-run-class.sh /opt/kafka_2.11-1.1.1/bin/kafka-run-class.sh.backup
+fi
+sed -i '/KAFKA_JMX_OPTS="$KAFKA_JMX_OPTS -Dcom.sun.management.jmxremote.port=$JMX_PORT "/a \  KAFKA_JMX_OPTS="$KAFKA_JMX_OPTS -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -Dcom.sun.management.jmxremote.local.only=false -Djava.rmi.server.hostname=localhost -Dcom.sun.management.jmxremote.rmi.port=$JMX_PORT "' /opt/kafka_2.11-1.1.1/bin/kafka-run-class.sh
 
 # HBase
+mkdir /opt/hbase-2.0.0/lib/native
+ln -s /opt/hadoop-3.1.1/lib/native /opt/hbase-2.0.0/lib/native/Linux-amd64-64
 cat > /opt/hbase-2.0.0/conf/hbase-site.xml << EOF
 <configuration>
   <property>
@@ -48,10 +63,36 @@ cat > /opt/hbase-2.0.0/conf/hbase-site.xml << EOF
       likely not a false positive.
     </description>
   </property>
+  <property>
+    <name>hbase.defaults.for.version.skip</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>hbase.regionserver.wal.codec</name>
+    <value>org.apache.hadoop.hbase.regionserver.wal.IndexedWALEditCodec</value>
+  </property>
+  <property>
+    <name>hbase.region.server.rpc.scheduler.factory.class</name>
+    <value>org.apache.hadoop.hbase.ipc.PhoenixRpcSchedulerFactory</value>
+    <description>Factory to create the Phoenix RPC Scheduler that uses separate queues for index and metadata updates</description>
+  </property>
+  <property>
+    <name>hbase.rpc.controllerfactory.class</name>
+    <value>org.apache.hadoop.hbase.ipc.controller.ServerRpcControllerFactory</value>
+    <description>Factory to create the Phoenix RPC Scheduler that uses separate queues for index and metadata updates</description>
+  </property>
+  <property>
+    <name>phoenix.functions.allowUserDefinedFunctions</name>
+    <value>true</value>
+    <description>enable UDF functions</description>
+  </property>
 </configuration>
 EOF
 
-cp /opt/hbase-2.0.0/conf/hbase-env.sh /opt/hbase-2.0.0/conf/hbase-env.sh.backup
+if [ ! -f /opt/hbase-2.0.0/conf/hbase-env.sh.backup ]
+then
+    cp /opt/hbase-2.0.0/conf/hbase-env.sh /opt/hbase-2.0.0/conf/hbase-env.sh.backup
+fi
 sed -i 's/^# export HBASE_JMX_BASE=.*$/export HBASE_JMX_BASE="-Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.local.only=false -Djava.rmi.server.hostname=localhost"/' /opt/hbase-2.0.0/conf/hbase-env.sh
 sed -i 's/^# export HBASE_MASTER_OPTS="$HBASE_MASTER_OPTS $HBASE_JMX_BASE -Dcom.sun.management.jmxremote.port=10101"$/export HBASE_MASTER_OPTS="$HBASE_MASTER_OPTS $HBASE_JMX_BASE -Dcom.sun.management.jmxremote.port=40006 -Dcom.sun.management.jmxremote.rmi.port=40006"/' /opt/hbase-2.0.0/conf/hbase-env.sh
 #sed -i 's/^# export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS $HBASE_JMX_BASE -Dcom.sun.management.jmxremote.port=10102"$/export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS $HBASE_JMX_BASE -Dcom.sun.management.jmxremote.port=40007 -Dcom.sun.management.jmxremote.rmi.port=40007"/' /opt/hbase-2.0.0/conf/hbase-env.sh
@@ -61,7 +102,10 @@ sed -i "s/- seeds: \".*\"$/- seeds: \"$(hostname -i)\"/" /opt/apache-cassandra-3
 sed -i "s/^listen_address: .*$/listen_address: $hostname/" /opt/apache-cassandra-3.11.3/conf/cassandra.yaml
 sed -i "s/^rpc_address: .*$/rpc_address: $hostname/" /opt/apache-cassandra-3.11.3/conf/cassandra.yaml
 
-cp /opt/apache-cassandra-3.11.3/conf/cassandra-env.sh /opt/apache-cassandra-3.11.3/conf/cassandra-env.sh.backup
+if [ ! -f /opt/apache-cassandra-3.11.3/conf/cassandra-env.sh.backup ]
+then
+    cp /opt/apache-cassandra-3.11.3/conf/cassandra-env.sh /opt/apache-cassandra-3.11.3/conf/cassandra-env.sh.backup
+fi
 echo 'JVM_OPTS="$JVM_OPTS -XX:+UnlockCommercialFeatures -XX:+FlightRecorder"' >> /opt/apache-cassandra-3.11.3/conf/cassandra-env.sh
 sed -i 's/^# JVM_OPTS="$JVM_OPTS -Djava.rmi.server.hostname=.*"$/JVM_OPTS="$JVM_OPTS -Djava.rmi.server.hostname=localhost"/' /opt/apache-cassandra-3.11.3/conf/cassandra-env.sh
 sed -i "s/LOCAL_JMX=yes$/LOCAL_JMX=no/" /opt/apache-cassandra-3.11.3/conf/cassandra-env.sh
