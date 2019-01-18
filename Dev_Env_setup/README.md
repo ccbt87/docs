@@ -331,7 +331,7 @@ Right click on the Docker icon. Select Settings.
 
 ![Settings](images/3.2.1.PNG)
 
-Select Advanced tab, adjust the memory limit to 4 - 8 GB
+Select Advanced tab, adjust the memory limit to 8 GB
 
 ![Memory](images/3.2.2.PNG)
 
@@ -341,7 +341,7 @@ Click on the Docker icon in the menu bar. Select Preferences.
 
 ![Settings](images/3.2.3.PNG)
 
-Select Advanced tab, adjust the memory limit to 4 - 8 GB
+Select Advanced tab, adjust the memory limit to 8 GB
 
 ![Memory](images/3.2.4.PNG)
 
