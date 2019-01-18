@@ -1,6 +1,6 @@
 # Spark Local Development Environment Setup with Java and Maven
 
-> TMTOWTDI: Instructions may vary. This tutorial is based on following environment:
+> TMTOWTDI: Instructions may vary in different environment. This tutorial is based on following environment:
 * Windows 10 1803
 * JDK 8u112
 * IntelliJ IDEA 2018.2.4
@@ -111,6 +111,8 @@ Click on the download link that matches your OS
 1. From either the Downloads window of the browser, or from the file browser, double click the .dmg file to launch it.
 
 	A Finder window appears containing an icon of an open box and the name of the .pkg file.
+
+![JDK](images/1.2.1.PNG)
 
 2. Double click the package icon to launch the Install app.
 
@@ -365,9 +367,9 @@ Docker for Mac and Windows cannot route traffic to Linux containers. Use the fol
 * To connect to a container from the Mac or Windows, run the image using either one of the following commands and then use localhost:{port} to access the service in the container.
   * Use `-p` or `--publish` to publish ports on the container to specific ports on the host.
   ```
-	docker run --hostname aio --name aio -it -p 2181:2181 -p 4040:4040 -p 6667:6667 -p 7077:7077 -p 8080:8080 -p 8081:8081 -p 9042:9042 -p 9090:9090 -p 16000:16000 -p 16010:16010 -p 16020:16020 -p 16030:16030 -p 18080:18080 -p 40001-40011:40001-40011 ccbt87/aio
+	docker run --hostname aio --name aio -it -p 2181:2181 -p 4040:4040 -p 6667:6667 -p 7077:7077 -p 8080:8080 -p 8081:8081 -p 8765:8765 -p 9042:9042 -p 9090:9090 -p 16000:16000 -p 16010:16010 -p 16020:16020 -p 16030:16030 -p 18080:18080 -p 40001-40011:40001-40011 ccbt87/aio
   ```
-  * Use `-P` to exposes pre-defined ports on the container to random ports on the host. (Ports 2181 4040 6667 7077 8080 8081 9042 9090 16000 16010 16020 16030 18080 and 40001 to 40011 were defined in the Dockerfile when building this Docker image)
+  * Use `-P` to exposes pre-defined ports on the container to random ports on the host. (Ports 2181 4040 6667 7077 8080 8081 8765 9042 9090 16000 16010 16020 16030 18080 and 40001 to 40011 were defined in the Dockerfile when building this Docker image)
   ```
   docker run --hostname aio --name aio -it -P ccbt87/aio
   ```
@@ -650,9 +652,11 @@ https://docs.datastax.com/en/cassandra/3.0/cassandra/configuration/secureJmxAuth
 
 https://hbase.apache.org/metrics.html
 
+https://github.com/wurstmeister/kafka-docker/wiki#why-do-kafka-tools-fail-when-jmx-is-enabled
+
 ## Appendix
 ### Appendix A - Docker Image Info
-Following components were included in the Docker image `ccbt87/aio`:
+Following components were included in the latest Docker image `ccbt87/aio`:
 
 | Component | Version | Binary Location | Port |
 | --- | --- | --- | --- |
@@ -662,6 +666,7 @@ Following components were included in the Docker image `ccbt87/aio`:
 | Zookeeper* | 3.4.10 | | Client Port 2181 |
 | Cassandra | 3.11.3 | /opt/apache-cassandra-3.11.3 | Client Port 9042 |
 | NiFi | 1.7.0 | /opt/nifi-1.7.0 | Web UI 9090 |
+| Phoenix Query Server | 5.0.0 | apache-phoenix-5.0.0-HBase-2.0-bin | Listener 8765 |
 
 This Docker image uses the Oracle JDK version: 1.8.0_112 (JAVA_HOME=/opt/jdk1.8.0_112)
 
@@ -693,7 +698,7 @@ Supply two arguments will first try to disable and drop the specified table name
 ```
 
 ### Appendix B - Known Issues
-#### 1. Components Stop Working After the Docker Container or the Host Restarts
+#### 1. Components May Stop Working After the Docker Container or the Host Restarts
 
 ##### Symptom
 
@@ -719,6 +724,6 @@ None
 
 2. Add `--rm` option when running the Docker image
 ```
-docker run --hostname aio --name aio --rm -it -p 2181:2181 -p 4040:4040 -p 6667:6667 -p 7077:7077 -p 8080:8080 -p 8081:8081 -p 9042:9042 -p 9090:9090 -p 16000:16000 -p 16010:16010 -p 16020:16020 -p 16030:16030 -p 18080:18080 -p 40001-40011:40001-40011 ccbt87/aio
+docker run --hostname aio --name aio --rm -it -p 2181:2181 -p 4040:4040 -p 6667:6667 -p 7077:7077 -p 8080:8080 -p 8081:8081 -p 8765:8765 -p 9042:9042 -p 9090:9090 -p 16000:16000 -p 16010:16010 -p 16020:16020 -p 16030:16030 -p 18080:18080 -p 40001-40011:40001-40011 ccbt87/aio
 ```
 > NOTE: With the `--rm` flag Docker will remove the container when it exits. Make sure to backup the data in the container if there is any.
