@@ -684,7 +684,7 @@ Scripts under `/root`:
 
 `init-hbase-table.sh` is used for create or drop HBase table:
 
-Supply no argument will first try to disable and drop the default table name `tenantxsy_data`, and then create the same table name with three column families `e`, `U`, and `S`
+Supply no argument will first try to disable and drop the default table name `tenantid_data`, and then create the same table name with three column families `e`, `U`, and `S`
 ```
 ./init-hbase-table.sh
 ```
